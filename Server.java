@@ -34,9 +34,9 @@ public class Server {
                 		 {
 		                	for(int j=1;j<=frequency;j++)
 		                	{
-		                		for(int i=1;i<=no_of_channels&&stream[i]>lowest_value;i++)
-		                		{
-		                			stream[i]=randomNumber.nextInt(highest_value);
+		                		for(int i=1;i<=no_of_channels;i++)
+		                		{			                			
+		                			stream[i]=lowest_value+randomNumber.nextInt(highest_value);
 		                		}
 		                			for(int i=1;i<=no_of_channels;i++) 
 		                		{
