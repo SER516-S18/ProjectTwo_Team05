@@ -25,12 +25,13 @@ public class Server {
                 Socket socket = listener.accept();
                 try {
                 	DataInputStream din=new DataInputStream(socket.getInputStream());  
-                	DataOutputStream dout=new DataOutputStream(socket.getOutputStream());  
+                	DataOutputStream outToClient=new DataOutputStream(socket.getOutputStream());  
                 	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));  
                 	  
                     Thread thread = new Thread(new Runnable() {
                     	public void run() {
-                		
+                		 while(true)
+                		 {
 		                	for(int j=1;j<=frequency;j++)
 		                	{
 		                		for(int i=1;i<=no_of_channels&&stream[i]>lowest_value;i++)
@@ -40,7 +41,7 @@ public class Server {
 		                			for(int i=1;i<=no_of_channels;i++) 
 		                		{
 		                			try {
-										dout.writeInt(stream[i]);
+										outToClient.writeInt(stream[i]);
 									} catch (IOException e) {
 										e.printStackTrace();
 									}  
@@ -53,6 +54,7 @@ public class Server {
 								e.printStackTrace();
 							}
                     	} 
+                      }
                     });	
                 thread.start();
                  
