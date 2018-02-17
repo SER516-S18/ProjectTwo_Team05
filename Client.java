@@ -1,20 +1,24 @@
-package Project2_team05;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import javax.swing.*;
-
-public class Client {
-    public static void main(String[] args) throws IOException {
-        String serverAddress = JOptionPane.showInputDialog(
-                        "running the date service on port 9090:");
-        Socket s = new Socket(serverAddress, 1516);
-        BufferedReader input =
-                new BufferedReader(new InputStreamReader(s.getInputStream()));
-        String answer = input.readLine();
-        JOptionPane.showMessageDialog(null, answer);
-        System.exit(0);
-    }
+import javax.swing.*;// imports all the functions present in the swing library
+import java.awt.*;// imports all the functions present in awt library
+/**
+ * The below class creates a Window Client.
+ * @author (Sowmya Madabhushi)
+ * @version (2/16/18)
+ */
+public class Client extends JFrame
+{
+   public Client()//client class 
+   {
+       JFrame f = new JFrame(); 
+       f.setTitle("Client");
+       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       f.setSize(800,800);
+       f.setVisible(true);
+       f.setLayout(new FlowLayout(FlowLayout.CENTER)); 
+   }
+   public static void main(String[] args) //main 
+   {
+        Client client = new Client();
+        client.setVisible(true);
+   }
 }
