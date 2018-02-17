@@ -1,6 +1,10 @@
-package Project2_team05;
+//package Project2_team05;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,22 +16,57 @@ public class Server {
         ServerSocket listener = new ServerSocket(1516);
         int highest_value = 1024;
         int lowest_value = 0;
+        int stream[]=new int[100]; 
+    	int no_of_channels=2;
+    	int frequency=2;
         Random randomNumber = new Random();
         try {
             while (true) {
                 Socket socket = listener.accept();
                 try {
-                    PrintWriter out =
-                            new PrintWriter(socket.getOutputStream(), true);
-                    int number = lowest_value + randomNumber.nextInt(highest_value);
-                    out.println(number);
-                } finally {
-                    socket.close();
-                }
+                	DataInputStream din=new DataInputStream(socket.getInputStream());  
+                	DataOutputStream dout=new DataOutputStream(socket.getOutputStream());  
+                	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));  
+                	  
+                    Thread thread = new Thread(new Runnable() {
+                    	public void run() {
+                		
+		                	for(int j=1;j<=frequency;j++)
+		                	{
+		                		for(int i=1;i<=no_of_channels&&stream[i]>lowest_value;i++)
+		                		{
+		                			stream[i]=randomNumber.nextInt(highest_value);
+		                		}
+		                			for(int i=1;i<=no_of_channels;i++) 
+		                		{
+		                			try {
+										dout.writeInt(stream[i]);
+									} catch (IOException e) {
+										e.printStackTrace();
+									}  
+		                		}
+		                	}
+		                	try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+                    	} 
+                    });	
+                thread.start();
+                 
+                    socket.close();               
+            
+		        }
+                catch (Exception e) {
+					e.printStackTrace();
+				}
+		        finally {
+		            listener.close();
+		        } 
             }
-        }
-        finally {
-            listener.close();
-        }
+        
+        } catch (Exception e) {}
     }
 }
