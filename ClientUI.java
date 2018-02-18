@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClientUI extends JFrame{
     public Color LIGHTBLUE = new Color(173,216,230);
@@ -98,6 +100,15 @@ public class ClientUI extends JFrame{
         channelDropDown.setBorder(BorderFactory.createLineBorder(Color.black));
         channelDropDown.setBackground(LIGHTBLUE);
         channelDropDown.setBounds(655,245,85,60);
+        channelDropDown.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String selectedValue = (String)channelDropDown.getSelectedItem();
+				
+			}
+		});
+        dataPanel.add(channelDropDown);
         dataPanel.add(channelDropDown);
 
         JLabel frequency = new JLabel("<html>Frequency<br>(Hz):</html>");
