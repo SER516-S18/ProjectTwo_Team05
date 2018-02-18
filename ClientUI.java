@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.text.NumberFormatter;
+import java.text.NumberFormat;
 
 public class ClientUI extends JFrame{
     public Color LIGHTBLUE = new Color(173,216,230);
@@ -119,11 +121,16 @@ public class ClientUI extends JFrame{
         frequency.setOpaque(true);
         dataPanel.add(frequency);
 
-        JTextPane freqTxt = new JTextPane();
+	NumberFormat longFormat = NumberFormat.getIntegerInstance();
+        NumberFormatter numberFormatter = new NumberFormatter(longFormat);
+        numberFormatter.setValueClass(Long.class); 
+        numberFormatter.setAllowsInvalid(false); 
+        JFormattedTextField freqTxt = new JFormattedTextField(numberFormatter);
         freqTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         freqTxt.setBackground(LIGHTPINK);
         freqTxt.setBounds(655,325,85,60);
         dataPanel.add(freqTxt);
+
 
         dataPanel.repaint();
         consolePanel.repaint();
