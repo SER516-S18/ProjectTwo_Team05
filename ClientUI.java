@@ -1,5 +1,3 @@
-package clientPackage;
-
 import javax.swing.*;
 import java.awt.*;
 
