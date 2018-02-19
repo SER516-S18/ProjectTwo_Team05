@@ -23,10 +23,8 @@ public class Client
             String host = "localhost";
             int port = 1516;
             InetAddress address = InetAddress.getByName(host);
-            socket = new Socket(address, port);
- 
-            
- 
+            socket = new Socket(address, port); 
+        
             //Get message from the server
             InputStream is = socket.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
