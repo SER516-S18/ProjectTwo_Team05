@@ -1,0 +1,1 @@
+ALl the common fiunctionalitites and constant files would be placed in this folder for convenience of its sharing in different classes.
