@@ -69,12 +69,11 @@ public class serverUI
         downPanel.setLayout(null);
 
 
-        JPanel signalPanel = new JPanel();
-        signalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        signalPanel.setBackground(LIGHTPINK);
-        signalPanel.setBounds(15,15,520,520);
-        upPanel.add(signalPanel);
-        signalPanel.setLayout(null);
+        JPanel circle = new Circle(235, 225, 130, Color.green);
+        circle.setBounds(15, 15, 520, 520);
+        circle.setBackground(LIGHTPINK);
+        circle.setBorder(BorderFactory.createLineBorder(Color.black));
+        upPanel.add(circle);
 
 
         /*Highest Value Label */
