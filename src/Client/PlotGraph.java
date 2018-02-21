@@ -48,13 +48,13 @@ public class PlotGraph extends ApplicationFrame{
 	    return dataset;
 	}
 	
-	/* public static void main( String[ ] args ) {
+	public static void main( String[ ] args ) {
 		  int inputValues[] = {1, 2, 3, 4, 5};
 	      PlotGraph chart = new PlotGraph("", inputValues);
 	      chart.pack( );          
 	      RefineryUtilities.centerFrameOnScreen( chart );          
 	      chart.setVisible( true ); 
-	}*/
+	}
 	
 }
 
