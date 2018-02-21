@@ -1,1 +1,0 @@
-Client folder will contain all the GUI and functionality related to Client.
