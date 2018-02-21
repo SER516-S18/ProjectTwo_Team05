@@ -1,1 +1,0 @@
-Server folder will contain all the files related to GUI and functionalities of the server.
