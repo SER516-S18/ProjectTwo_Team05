@@ -10,7 +10,7 @@ public class Client {
         int port = 1516;
 
         // declaration section:
-        // clientSocket: our client socket
+        // clientSocket: our cldient socket
         // os: output stream
         // is: input stream
 
