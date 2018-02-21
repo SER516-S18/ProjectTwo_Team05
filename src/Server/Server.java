@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.Random;
 
 public class Server  {
-
+// comment test
     static Server ServerInstance = new Server();
     private boolean ServerStatus ;
     DataInputStream input_stream =null;
