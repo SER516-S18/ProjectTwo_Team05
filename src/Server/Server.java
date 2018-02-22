@@ -10,23 +10,32 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
-public class Server  {
+public class Server  implements Runnable{
 // comment test
-    static Server ServerInstance = new Server();
     private boolean ServerStatus;
-    DataInputStream input_stream =null;
-    DataOutputStream outToClient=null;
-    BufferedReader buffer=null;
-    ServerSocket listener=null;
-    int highest_value = 1024;
-    int lowest_value = 0;
-    int no_of_channels = 2;
-    int frequency =2;
-    int port = Constant.PORT_NUMBER;
-    
-    public static Server getServerInstance()
+    private DataInputStream input_stream =null;
+    private DataOutputStream outToClient=null;
+    private BufferedReader buffer=null;
+    private ServerSocket listener=null;
+    private int highest_value = 1024;
+    private int lowest_value = 0;
+    private int no_of_channels = 2;
+    private int frequency =2;
+    private int port = Constant.PORT_NUMBER;
+
+    @Override
+    public void run(){
+        System.out.println("Running Server");
+        this.StartServer();
+    }
+
+
+    public static Server createThreadForServer()
     {
-        return ServerInstance ;
+        Server server = new Server();
+        System.out.println("creating new thread");
+        new Thread(server).start();
+        return server;
     }
 
     private boolean checkServerStatus()
@@ -39,7 +48,7 @@ public class Server  {
         ServerStatus = false;
     }
 
-    public void StopServer(){
+    public synchronized void StopServer(){
         this.ServerStatus=false;
         try{
             this.listener.close();
@@ -84,7 +93,7 @@ public class Server  {
                 System.out.print(e.getMessage());
             }
 
-            while(!checkServerStatus()) {
+            while(this.ServerStatus) {
                 try {
 
                     this.ServerStatus = true;
@@ -94,14 +103,6 @@ public class Server  {
                         input_stream = new DataInputStream(socket.getInputStream());
                         outToClient = new DataOutputStream(socket.getOutputStream());
                         buffer = new BufferedReader(new InputStreamReader(System.in));
-
-                        /*int num=0;
-                        while(true)
-                           num = lowest_value + randomNumber.nextInt(highest_value);
-                            
-						*/
-                    //   frequency=getFrequency();
-                     //   no_of_channels=getChannels();
                         
                        Thread thread = new Thread(new Runnable() {
                             public void run() {

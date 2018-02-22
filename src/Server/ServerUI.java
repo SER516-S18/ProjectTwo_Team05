@@ -15,7 +15,7 @@ public class ServerUI
 {
     public Color LIGHTBLUE = Constant.LIGHTBLUE;
     public Color LIGHTPINK = Constant.LIGHTPINK;
-    Server Server;
+    Server serverThread;
     private boolean ServerRunning = false;
 
     public ServerUI()
@@ -39,20 +39,22 @@ public class ServerUI
             
             public void actionPerformed(ActionEvent e) {
                 ServerRunning = !ServerRunning;
-                Server = Server.getServerInstance();
+
                 if(ServerRunning)
                 {
                     System.out.println("Server is running..."); // print command on console
-                    Server.StartServer();
+                    setThreadForServer(Server.createThreadForServer());
                 }
                 else
                 {
+                    serverThread = getThreadForServer();
+                    serverThread.StopServer();
                     System.out.println("Server is Stopped...");  // print command on console
-                    Server.StopServer();
                 }
             }
         });
         f.add(startStop);
+
 
 
         JPanel upPanel = new JPanel();
@@ -133,6 +135,17 @@ public class ServerUI
         upPanel.repaint();
         downPanel.repaint();
     }
+
+    public void setThreadForServer(Server serverThread)
+    {
+        this.serverThread = serverThread;
+    }
+
+    public Server getThreadForServer()
+    {
+        return this.serverThread;
+    }
+
     public static void main(String[] args) //main
     {
         ServerUI s = new ServerUI();
