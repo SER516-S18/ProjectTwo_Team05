@@ -16,8 +16,15 @@ public class Console {
 
 	public Console() {
 
-//add contructor
+//add contsructor
 
 	}
 	
+	public void print(String text) {
+
+		this.consoleDisplay.setText("Message:" + text);
+
+	}
+
+
 }
