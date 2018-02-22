@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.GeneralSecurityException;
 import java.util.Random;
 
 public class Server  implements Runnable{
@@ -106,8 +107,15 @@ public class Server  implements Runnable{
                         
                        Thread thread = new Thread(new Runnable() {
                             public void run() {
+                            	frequency= getFrequency();
+                            	no_of_channels= getChannels();
                                 while (!checkServerStatus()) {
-
+                                	if(frequency!=getFrequency()) {
+                                		frequency=getFrequency();
+                                	}
+                                	if(no_of_channels!=getChannels()) {
+                                		no_of_channels=getChannels();
+                                	}
                                     for (int j = 1; j <= frequency; j++) {
                                         for (int i = 1; i <= no_of_channels; i++) {
                                             stream[i] = lowest_value + randomNumber.nextInt(highest_value);
