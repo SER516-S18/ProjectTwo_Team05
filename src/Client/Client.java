@@ -39,7 +39,17 @@ public class Client {
 
         try {
             clientSocket = new Socket(hostname, port);
+	    //sending data to server
             os = new DataOutputStream(clientSocket.getOutputStream());
+            OutputStreamWriter osw = new OutputStreamWriter(os);
+            BufferedWriter bw = new BufferedWriter(osw);
+            /*frequency and channel has to be integrated with UI input values*/
+            int frequency = 20;
+            int channel = 2; 
+            String sendMessage = frequency + "," + channel;
+            bw.write(sendMessage);
+            bw.flush();
+	    //receiving data from server
             inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
            // String responseLine = null;
             for(int j=1;j<=frequency;j++) {
@@ -86,3 +96,4 @@ public class Client {
         }
 	}
 }
+
