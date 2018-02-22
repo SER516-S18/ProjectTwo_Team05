@@ -25,6 +25,17 @@ public class Console {
 		this.consoleDisplay.setText("Message:" + text);
 
 	}
+	
+	public static Console getConsole() {
+
+		if (null == console)
+
+		{	console = new Console();}
+
+		return console;
+
+	}
+
 
 
 }
