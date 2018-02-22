@@ -32,10 +32,14 @@ public class Console {
 
 		{	console = new Console();}
 
-		return console;
+		return console;	
 
 	}
 
+	public void setConsole(JTextPane console) {
 
+		this.consoleDisplay = console;
+
+	}
 
 }
