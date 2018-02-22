@@ -4,24 +4,27 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
-    public static void main(String[] args) {
-    	String hostname = "localhost";
-        int port = 1516;
-        int[] stream=new int[100];
-        int no_of_channels=2;
-        int frequency=2;
+	boolean clientstatus;
+	String hostname = "localhost";
+    int port = 1516;
+    int[] stream=new int[100];
+    int no_of_channels=2;
+    int frequency=2;
 
-        // declaration section:
-        // clientSocket: our cldient socket
-        // os: output stream
-        // is: input stream
+    // declaration section:
+    // clientSocket: our cldient socket
+    // os: output stream
+    // is: input stream
 
-        Socket clientSocket = null;
-        DataOutputStream os = null;
-        BufferedReader inFromServer = null;
+    Socket clientSocket = null;
+    DataOutputStream os = null;
+    BufferedReader inFromServer = null;
 
-
-        // Initialization section:
+	public boolean clientStatus() {
+	return clientstatus;	
+	}
+	public void startClient() {
+		 // Initialization section:
         // Try to open a socket on the given port
         // Try to open input and output streams
 
@@ -57,7 +60,9 @@ public class Client {
             return;
         }
 
-        try {
+	}
+	public void stopClient() {
+		try {
 
             // clean up:
             os.close(); // close the output stream
@@ -69,5 +74,11 @@ public class Client {
         } catch (IOException e) {
             System.err.println("IOException:  " + e);
         }
+	}
+    public static void main(String[] args) {
+    	
+
+       
+        
     }
 }
