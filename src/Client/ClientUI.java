@@ -6,6 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.text.NumberFormatter;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RefineryUtilities;
 
 import java.text.NumberFormat;
 
@@ -22,18 +32,19 @@ import java.text.NumberFormat;
 */
 
 
-public class ClientUI {
+public class ClientUI{
 	
     public Color LIGHTBLUE = new Color(173,216,230);
     public Color LIGHTPINK = new Color(255,182,193);
     private String[] valuesForDropDown = new String[] {"1", "2", "3", "4", "5"};
     private JComboBox<String> channelDropDown;
 
+
     Client client;
     private boolean clientRunning = false;
     
     public ClientUI() {
-    	
+
         JFrame f = new JFrame();
 
         f.setTitle("Client");
@@ -84,9 +95,18 @@ public class ClientUI {
 
         /* sub-panel of dataPanel to display graph */
         JPanel graphPanel = new JPanel();
-        graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        //TODO Get numbers from the client 
+        int inputValues[] = {1, 2, 3, 4, 5};
+	    PlotGraph chart = new PlotGraph("");
+	    ChartPanel chartPanel = chart.PlotGraphMethod(inputValues);
+	    chart.pack( );          
+	    chartPanel.setVisible( true );     
+        
+     
+	    graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         graphPanel.setBackground(LIGHTPINK);
         graphPanel.setBounds(15,15,520,520);
+        graphPanel.add(chartPanel);
         dataPanel.add(graphPanel);
         graphPanel.setLayout(null);
 
@@ -187,6 +207,8 @@ public class ClientUI {
 
         dataPanel.repaint();
         consolePanel.repaint();
+        f.setVisible(true);
+       
     }
     
     public static void main(String[] args) //main
