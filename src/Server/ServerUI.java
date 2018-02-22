@@ -35,7 +35,7 @@ public class ServerUI
         startStop.setBorder(BorderFactory.createLineBorder(Color.black));
 
         startStop.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 ServerRunning = !ServerRunning;
                 Server = Server.getServerInstance();
@@ -68,6 +68,11 @@ public class ServerUI
         downPanel.setBounds(10, 610, 760, 130);
         f.add(downPanel);
         downPanel.setLayout(null);
+        
+        JLabel consoleLabel = new JLabel(" Console :");
+        consoleLabel.setBounds(5, 10, 80, 10);
+        downPanel.add(consoleLabel);
+        
 
 
         JPanel circle = new Circle(235, 225, 130, Color.green);

@@ -4,34 +4,46 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
-    public static void main(String[] args) {
+	boolean clientstatus;
+	String hostname = "localhost";
+    int port = 1516;
+    int[] stream=new int[100];
+    int no_of_channels=2;
+    int frequency=2;
 
-        String hostname = "localhost";
-        int port = 1516;
+    // declaration section:
+    // clientSocket: our cldient socket
+    // os: output stream
+    // is: input stream
 
-        // declaration section:
-        // clientSocket: our cldient socket
-        // os: output stream
-        // is: input stream
+    Socket clientSocket = null;
+    DataOutputStream os = null;
+    BufferedReader inFromServer = null;
 
-        Socket clientSocket = null;
-        DataOutputStream os = null;
-        BufferedReader is = null;
-
-        // Initialization section:
+	public boolean clientStatus() {
+	return clientstatus;	
+	}
+	public void startClient() {
+		 // Initialization section:
         // Try to open a socket on the given port
         // Try to open input and output streams
 
         try {
             clientSocket = new Socket(hostname, port);
             os = new DataOutputStream(clientSocket.getOutputStream());
-            is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String responseLine = null;
-            while ( ( responseLine =is.readLine())!=null) {
+            inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+           // String responseLine = null;
+            for(int j=1;j<=frequency;j++) {
+            	for(int i=1;i<=no_of_channels;i++) {
+    				stream[i]=Integer.parseInt(inFromServer.readLine());
+    				System.out.println( stream[i]);
+                }
+            }
+          /*  while ( ( responseLine =inFromServer.readLine())!=null) {
 
                 System.out.println( responseLine);
 
-            }
+            }*/
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host: " + hostname);
@@ -43,16 +55,18 @@ public class Client {
         // If everything has been initialized then we want to write some data
         // to the socket we have opened a connection to on the given port
 
-        if (clientSocket == null || os == null || is == null) {
+        if (clientSocket == null || os == null || inFromServer == null) {
             System.err.println( "Something is wrong. One variable is null." );
             return;
         }
 
-        try {
+	}
+	public void stopClient() {
+		try {
 
             // clean up:
             os.close(); // close the output stream
-            is.close();  // close the input stream
+            inFromServer.close();  // close the input stream
             clientSocket.close();  // close the socket
 
         } catch (UnknownHostException e) {
@@ -60,5 +74,11 @@ public class Client {
         } catch (IOException e) {
             System.err.println("IOException:  " + e);
         }
+	}
+    public static void main(String[] args) {
+    	
+
+       
+        
     }
 }

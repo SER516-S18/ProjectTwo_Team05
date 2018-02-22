@@ -2,6 +2,7 @@ package Server;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -10,11 +11,11 @@ import java.net.Socket;
 import java.util.Random;
 
 public class Server  {
-
+// comment test
     static Server ServerInstance = new Server();
     private boolean ServerStatus ;
     DataInputStream input_stream =null;
-    PrintStream outToClient=null;
+    DataOutputStream outToClient=null;
     BufferedReader buffer=null;
     ServerSocket listener=null;
     int highest_value = 1024;
@@ -48,7 +49,24 @@ public class Server  {
         System.out.println("Server has stopped");
         // print message on console
     }
-
+public int getFrequency() {
+	try {
+		frequency= buffer.read();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	return frequency;
+}
+public int getChannels() {
+	try {
+		no_of_channels= buffer.read();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return no_of_channels;
+}
     public void StartServer () {
 
             
@@ -72,23 +90,23 @@ public class Server  {
                     try {
 
                         input_stream = new DataInputStream(socket.getInputStream());
-                        outToClient = new PrintStream(socket.getOutputStream());
+                        outToClient = new DataOutputStream(socket.getOutputStream());
                         buffer = new BufferedReader(new InputStreamReader(System.in));
 
-
-                      /*  while(true){
-                            Integer num = lowest_value + randomNumber.nextInt(highest_value);
-                            outToClient.println(num);
-
-                        }*/
+                        /*int num=0;
+                        while(true)
+                           num = lowest_value + randomNumber.nextInt(highest_value);
+                            
+						*/
                         
                         
-                        frequency= buffer.read(); 
-                        no_of_channels= buffer.read();
                         
-                        Thread thread = new Thread(new Runnable() {
+                     //   frequency=getFrequency();
+                     //   no_of_channels=getChannels();
+                        
+                       Thread thread = new Thread(new Runnable() {
                             public void run() {
-                                while (true) {
+                                while (!checkServerStatus()) {
 
                                     for (int j = 1; j <= frequency; j++) {
                                         for (int i = 1; i <= no_of_channels; i++) {
@@ -96,7 +114,12 @@ public class Server  {
                                         }
                                         for (int i = 1; i <= no_of_channels; i++) {
                                             System.out.print(stream[i]);
-											outToClient.write(stream[i]);
+											try {
+												outToClient.writeInt(stream[i]);
+											} catch (IOException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
                                         }
                                     }
 
@@ -111,6 +134,7 @@ public class Server  {
                             }
                         });
                         thread.start();
+                        
 
 
 
