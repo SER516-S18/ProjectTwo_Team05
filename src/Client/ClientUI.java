@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.text.NumberFormatter;
+
+
 import java.text.NumberFormat;
 
 /*
@@ -20,13 +22,18 @@ import java.text.NumberFormat;
 */
 
 
-public class ClientUI extends JFrame{
+public class ClientUI {
+	
     public Color LIGHTBLUE = new Color(173,216,230);
     public Color LIGHTPINK = new Color(255,182,193);
     private String[] valuesForDropDown = new String[] {"1", "2", "3", "4", "5"};
     private JComboBox<String> channelDropDown;
 
-    public ClientUI(){
+    Client client;
+    private boolean clientRunning = false;
+    
+    public ClientUI() {
+    	
         JFrame f = new JFrame();
 
         f.setTitle("Client");
@@ -40,6 +47,23 @@ public class ClientUI extends JFrame{
         startStop.setBackground(LIGHTPINK);
         startStop.setBounds(580, 10, 190, 30);
         startStop.setBorder(BorderFactory.createLineBorder(Color.black));
+        startStop.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+            		clientRunning = !clientRunning;
+            		client = client.getClientInstance();
+                if(clientRunning)
+                {
+                    System.out.println("Client is running..."); // print command on console
+                    client.startClient();
+                }
+                else
+                {
+                    System.out.println("Client is Stopped...");  // print command on console
+                    client.stopClient();
+                }
+            }
+        });
         f.add(startStop);
 
         /* dataPanel is the main Panel with Graph plotting and statistics */
@@ -164,10 +188,10 @@ public class ClientUI extends JFrame{
         dataPanel.repaint();
         consolePanel.repaint();
     }
+    
     public static void main(String[] args) //main
     {
         ClientUI client = new ClientUI();
-        client.setVisible(true);
     }
 }
 

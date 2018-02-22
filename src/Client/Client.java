@@ -3,7 +3,10 @@ package Client;
 import java.io.*;
 import java.net.*;
 
+
 public class Client {
+	
+	static Client ClientInstance = new Client();
 	boolean clientstatus;
 	String hostname = "localhost";
     int port = 1516;
@@ -21,8 +24,14 @@ public class Client {
     BufferedReader inFromServer = null;
 
 	public boolean clientStatus() {
-	return clientstatus;	
+		return clientstatus;	
 	}
+	
+	public static Client getClientInstance()
+    {
+        return ClientInstance;
+    }
+	
 	public void startClient() {
 		 // Initialization section:
         // Try to open a socket on the given port
@@ -61,6 +70,7 @@ public class Client {
         }
 
 	}
+
 	public void stopClient() {
 		try {
 
@@ -75,10 +85,4 @@ public class Client {
             System.err.println("IOException:  " + e);
         }
 	}
-    public static void main(String[] args) {
-    	
-
-       
-        
-    }
 }

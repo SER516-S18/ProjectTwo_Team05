@@ -13,7 +13,7 @@ import java.util.Random;
 public class Server  {
 // comment test
     static Server ServerInstance = new Server();
-    private boolean ServerStatus ;
+    private boolean ServerStatus;
     DataInputStream input_stream =null;
     DataOutputStream outToClient=null;
     BufferedReader buffer=null;
@@ -22,6 +22,7 @@ public class Server  {
     int lowest_value = 0;
     int no_of_channels = 2;
     int frequency =2;
+    
     public static Server getServerInstance()
     {
         return ServerInstance ;
@@ -49,27 +50,28 @@ public class Server  {
         System.out.println("Server has stopped");
         // print message on console
     }
-public int getFrequency() {
-	try {
-		frequency= buffer.read();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} 
-	return frequency;
-}
-public int getChannels() {
-	try {
-		no_of_channels= buffer.read();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+    
+	public int getFrequency() {
+		try {
+			frequency= buffer.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return frequency;
 	}
-	return no_of_channels;
-}
-    public void StartServer () {
-
-            
+	
+	public int getChannels() {
+		try {
+			no_of_channels= buffer.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return no_of_channels;
+	}
+	
+    public void StartServer () {            
             int stream[] = new int[100];
             
             Random randomNumber = new Random();
@@ -80,7 +82,6 @@ public int getChannels() {
             {
                 System.out.print(e.getMessage());
             }
-
 
             while(!checkServerStatus()) {
                 try {
@@ -98,10 +99,7 @@ public int getChannels() {
                            num = lowest_value + randomNumber.nextInt(highest_value);
                             
 						*/
-                        
-                        
-                        
-                     //   frequency=getFrequency();
+                    //   frequency=getFrequency();
                      //   no_of_channels=getChannels();
                         
                        Thread thread = new Thread(new Runnable() {
@@ -134,10 +132,7 @@ public int getChannels() {
                             }
                         });
                         thread.start();
-                        
-
-
-
+       
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
@@ -152,7 +147,4 @@ public int getChannels() {
                 }
             }
     }
-
-
-
 }
