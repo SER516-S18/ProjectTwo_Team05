@@ -1,5 +1,6 @@
 package Server;
 
+import Shared.Constant;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;// imports all the functions present in the swing library
@@ -12,8 +13,8 @@ import java.awt.*;// imports all the functions present in awt library
 
 public class ServerUI
 {
-    public Color LIGHTBLUE = new Color(173,216,230);
-    public Color LIGHTPINK = new Color(255,182,193);
+    public Color LIGHTBLUE = Constant.LIGHTBLUE;
+    public Color LIGHTPINK = Constant.LIGHTPINK;
     Server Server;
     private boolean ServerRunning = false;
 

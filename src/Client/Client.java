@@ -1,5 +1,6 @@
 package Client;
 
+import Shared.Constant;
 import java.io.*;
 import java.net.*;
 
@@ -8,8 +9,8 @@ public class Client {
 	
 	static Client ClientInstance = new Client();
 	boolean clientstatus;
-	String hostname = "localhost";
-    int port = 1516;
+	String hostname = Constant.HOST_NAME;
+    int port = Constant.PORT_NUMBER;
     int[] stream=new int[100];
     int no_of_channels=2;
     int frequency=2;

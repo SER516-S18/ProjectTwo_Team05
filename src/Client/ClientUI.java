@@ -1,23 +1,13 @@
 package Client;
 
-import javax.swing.*;
+import Shared.Constant;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.text.NumberFormatter;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RefineryUtilities;
-
 import java.text.NumberFormat;
+import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+import org.jfree.chart.ChartPanel;
 
 /*
 * @author  Rachana Kashyap
@@ -33,9 +23,9 @@ import java.text.NumberFormat;
 
 
 public class ClientUI{
-	
-    public Color LIGHTBLUE = new Color(173,216,230);
-    public Color LIGHTPINK = new Color(255,182,193);
+
+    public Color LIGHTBLUE = Constant.LIGHTBLUE;
+    public Color LIGHTPINK = Constant.LIGHTPINK;
     private String[] valuesForDropDown = new String[] {"1", "2", "3", "4", "5"};
     private JComboBox<String> channelDropDown;
 
@@ -59,7 +49,7 @@ public class ClientUI{
         startStop.setBounds(580, 10, 190, 30);
         startStop.setBorder(BorderFactory.createLineBorder(Color.black));
         startStop.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent e) {
             		clientRunning = !clientRunning;
             		client = client.getClientInstance();

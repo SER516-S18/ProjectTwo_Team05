@@ -1,11 +1,11 @@
 package Server;
 
+import Shared.Constant;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
@@ -22,6 +22,7 @@ public class Server  {
     int lowest_value = 0;
     int no_of_channels = 2;
     int frequency =2;
+    int port = Constant.PORT_NUMBER;
     
     public static Server getServerInstance()
     {
@@ -76,7 +77,7 @@ public class Server  {
             
             Random randomNumber = new Random();
             try{
-                listener = new ServerSocket(1516);
+                listener = new ServerSocket(port);
             }
             catch(Exception e)
             {
