@@ -17,9 +17,14 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 //PlotGraph class plots the graph for one channel of input
 public class PlotGraph extends ApplicationFrame{
+	
+	
+	public PlotGraph(String title) {
+		super(title);
+	}
 
-	public PlotGraph(String applicationTitle, int inputValues[]) {
-		super(applicationTitle);
+
+	public ChartPanel PlotGraphMethod(int inputValues[]) {
 		JFreeChart xyLineChart = ChartFactory.createXYLineChart("", "", "", 
 				createDataset(inputValues), PlotOrientation.VERTICAL, false, true, false);
 		ChartPanel chartPanel = new ChartPanel(xyLineChart);
@@ -30,9 +35,11 @@ public class PlotGraph extends ApplicationFrame{
 	    renderer.setSeriesPaint( 0 , Color.RED );
 	    renderer.setSeriesStroke( 0 , new BasicStroke( 2.0f ) );
 	    plot.setRenderer( renderer ); 
-	    setContentPane( chartPanel ); 
-		
+	    setContentPane( chartPanel );
+	    return chartPanel;
 	}
+	
+	
 	//Generates the dataset for plotting the graphs
 	private XYDataset createDataset(int inputValues[] ) {
 		int i;
@@ -47,14 +54,7 @@ public class PlotGraph extends ApplicationFrame{
 	    dataset.addSeries( plotValues );          
 	    return dataset;
 	}
-	
-	public static void main( String[ ] args ) {
-		  int inputValues[] = {1, 2, 3, 4, 5};
-	      PlotGraph chart = new PlotGraph("", inputValues);
-	      chart.pack( );          
-	      RefineryUtilities.centerFrameOnScreen( chart );          
-	      chart.setVisible( true ); 
-	}
+
 	
 }
 
