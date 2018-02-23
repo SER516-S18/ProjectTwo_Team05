@@ -81,11 +81,13 @@ public class Server  implements Runnable{
 		return no_of_channels;
 	}
 	
-    public void StartServer () {            
-            int stream[] = new int[100];
-            
+    public void StartServer () { 
+    	System.out.println("inside Startserver method ");
+            int stream[][] = new int[100][100];
+            String string_stream=new String();
             Random randomNumber = new Random();
             try{
+            	System.out.println("inside first try");
                 listener = new ServerSocket(port);
             }
             catch(Exception e)
@@ -94,10 +96,12 @@ public class Server  implements Runnable{
             }
 
             while(this.ServerStatus) {
+            	System.out.println("inside while");
                 try {
-
-                    this.ServerStatus = true;
+                	System.out.println("before accept");
+                    this.ServerStatus = true;                
                     Socket socket = listener.accept();
+                    System.out.println("Inside first while");
                     try {
 
                         input_stream = new DataInputStream(socket.getInputStream());
@@ -107,23 +111,18 @@ public class Server  implements Runnable{
                        Thread thread = new Thread(new Runnable() {
                             public void run() {
                                 while (!checkServerStatus()) {
-
+                                	System.out.println("Inside second while");
                                     for (int j = 1; j <= frequency; j++) {
                                         for (int i = 1; i <= no_of_channels; i++) {
-                                            stream[i] = lowest_value + randomNumber.nextInt(highest_value);
-                                        }
-                                        for (int i = 1; i <= no_of_channels; i++) {
-                                            System.out.print(stream[i]);
-											try {
-												outToClient.writeInt(stream[i]);
-											} catch (IOException e) {
-												// TODO Auto-generated catch block
-												e.printStackTrace();
-											}
-                                        }
+                                            stream[j][i] = lowest_value + randomNumber.nextInt(highest_value);
+                                        }                                                                                                                                                      
                                     }
-
-
+                                    try {
+										outToClient.writeUTF(stream.toString());
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}       
                                     try {
                                         Thread.sleep(1000);
                                     } catch (InterruptedException e) {
