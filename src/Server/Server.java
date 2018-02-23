@@ -2,13 +2,19 @@ package Server;
 
 import Shared.Constant;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 /*
  * Server class first accepts number of channels and frequency from
  * the client class and then generates and sends random numbers to the
@@ -21,12 +27,14 @@ public class Server  implements Runnable{
     private DataInputStream input_stream =null;
     private DataOutputStream outToClient=null;
     private BufferedReader buffer=null;
+    private BufferedWriter bufferWriter = null;
     private ServerSocket listener=null;
     private int highest_value =1024;
     private int lowest_value =0;
     private int no_of_channels=2 ;
     private int frequency=2 ;
     private int port = Constant.PORT_NUMBER;
+    Socket socket;
 
     @Override
     public void run(){
@@ -58,7 +66,7 @@ public class Server  implements Runnable{
 
     public Server()
     {
-        ServerStatus = false;
+        ServerStatus = true;
     }
 
     public synchronized void StopServer(){
@@ -71,39 +79,12 @@ public class Server  implements Runnable{
         }
 
     }
-    public void getValuesFromClient () {
-    	String data= new String();
-    	try {
-    	 	  data= buffer.readLine();
-    	 	} catch (IOException e) {
-    	 		// TODO Auto-generated catch block
-    	 	  e.printStackTrace();
-    	 	}
-    	 String []t=data.split(",");
-    	 frequency= Integer.parseInt(t[0]);
-    	 no_of_channels = Integer.parseInt(t[1]);
-    	 	}
-    
-    public int getFrequency() {
-    	getValuesFromClient();
-    	 return frequency;
-    	 	}
-    
-	public int getChannels() {
-		getValuesFromClient();
- 		return no_of_channels;
-	}
-	public int getCurrentFrequency() {
-		return frequency;
-	}
-	public int getCurrentChannel() {
-		return no_of_channels;
-	}
+
 	/* server starts and sends random numbers to the client 
 	 * */
     public void StartServer () { 
 
-            int stream[][] = new int[100][100];
+            
             String string_stream=new String();
             Random randomNumber = new Random();
             try{
@@ -118,46 +99,36 @@ public class Server  implements Runnable{
             while(this.ServerStatus) {
 
                 try {
+                	System.out.println("here");
 
-                    this.ServerStatus = true;                
-                    Socket socket = listener.accept();
+                   this.ServerStatus = false;    
+                	try {
+                     socket = listener.accept();
+                	}
+                	catch(Exception e) {
+                		e.printStackTrace();
+                	}
+                    System.out.println("2");
+                    System.out.println(socket+" ===");
 
                     try {
 
-                        input_stream = new DataInputStream(socket.getInputStream());
+                        
                         outToClient = new DataOutputStream(socket.getOutputStream());
-                        buffer = new BufferedReader(new InputStreamReader(System.in));                        
+                        
+                        OutputStream os = socket.getOutputStream();
+                        OutputStreamWriter osw = new OutputStreamWriter(os);
+                        bufferWriter = new BufferedWriter(osw);
                         Thread thread = new Thread(new Runnable() {
                             public void run() {
-                            	getValuesFromClient();
-                                while (!checkServerStatus()) {
-                                 	if(frequency!=getFrequency()) {
-                                 	frequency=getCurrentFrequency();
-                                 	}
-                                 	if(no_of_channels!=getChannels()) {
-                                     	no_of_channels=getCurrentChannel();
-                                     	}
-                                	System.out.println("Inside second while");
-                                    for (int j = 1; j <= frequency; j++) {
-                                        for (int i = 1; i <= no_of_channels; i++) {
-                                            stream[j][i] = lowest_value + randomNumber.nextInt(highest_value);
-                                        }                                                                                                                                                     
-                                    }
-                                    try {
-										outToClient.writeUTF(stream.toString());
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}       
-                                    try {
-                                        Thread.sleep(1000);
-                                    } catch (InterruptedException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        });
+                            	try {
+									bufferWriter.write("1,2,3,4");
+									bufferWriter.flush();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+                            }});
                         thread.start();
        
                     } catch (Exception e) {
