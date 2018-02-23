@@ -84,6 +84,7 @@ public class ClientUI{
         consolePanel.setBounds(10, 610, 760, 130);
         f.add(consolePanel);
         consolePanel.setLayout(null);
+	    
         /* Channels Label */
         JLabel channels = new JLabel("<html>Channels:</html>");
         channels.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -92,7 +93,6 @@ public class ClientUI{
         channels.setHorizontalAlignment(SwingConstants.CENTER);
         channels.setOpaque(true);
         dataPanel.add(channels);
-
         
         /*Channels Dropdown and select Combobox*/
         channelDropDown = new JComboBox<String>(valuesForDropDown);
@@ -131,7 +131,7 @@ public class ClientUI{
             }
         });
      
-	    graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+	graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         graphPanel.setBackground(LIGHTPINK);
         graphPanel.setBounds(15,15,520,520);
         graphPanel.add(chartPanel);
@@ -157,7 +157,7 @@ public class ClientUI{
             }
         }
 
-        /* Highest Value Label */
+        /* Highest Value Number Label */
         JLabel highTxt = new JLabel(""+maxValue+"",SwingConstants.CENTER);
         highTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         highTxt.setBackground(LIGHTPINK);
