@@ -28,9 +28,9 @@ public class ClientUI{
     public Color LIGHTPINK = Constant.LIGHTPINK;
     private String[] valuesForDropDown = new String[] {"1", "2", "3", "4", "5"};
     private JComboBox<String> channelDropDown;
-    int selectedValue = 5;
-    ChartPanel chartPanel;
-
+    int selectedValue = 1;
+    private PlotGraph chart;
+    private ChartPanel chartPanel;
 
     Client client;
     private boolean clientRunning = false;
@@ -107,16 +107,16 @@ public class ClientUI{
         /* sub-panel of dataPanel to display graph */
         JPanel graphPanel = new JPanel();
         //TODO Get numbers from the client 
-        int inputValues[] = {5, 2, 6, 3, 8,3,2,1,4,7};
-	    PlotGraph chart = new PlotGraph("");
+        int inputValues[] = {5, 2, 6, 3, 8, 3, 9, 1, 10, 7};
+	    chart = new PlotGraph("");
 	    chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
         chart.pack( );          
-	    	    chartPanel.setVisible( true );     
+	    	chartPanel.setVisible( true );     
         channelDropDown.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedValue = Integer.parseInt(channelDropDown.getSelectedItem().toString());
+                chart = new PlotGraph("");
                 chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
                 chart.pack( );          
         	    	    chartPanel.setVisible( true ); 
@@ -125,7 +125,9 @@ public class ClientUI{
         	    	    dataPanel.add(graphPanel);
         	    	    dataPanel.setVisible(true);
         	    	    f.add(dataPanel);
-        	    	   f.setVisible(true);
+        	    	    dataPanel.repaint();
+        	    	    f.setVisible(true);
+        	    	    f.repaint();
             }
         });
 
@@ -187,10 +189,6 @@ public class ClientUI{
         avgTxt.setBounds(655,165,85,60);
         dataPanel.add(avgTxt);
 
-       
-      
-        
-
         /* Frequency Label */
         JLabel frequency = new JLabel("<html>Frequency<br>(Hz):</html>");
         frequency.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -210,13 +208,10 @@ public class ClientUI{
         freqTxt.setBackground(LIGHTPINK);
         freqTxt.setBounds(655,325,85,60);
         dataPanel.add(freqTxt);
-
-
+        
         dataPanel.repaint();
         consolePanel.repaint();
         
-        
-       
         f.setVisible(true);
        
     }

@@ -18,7 +18,9 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 //PlotGraph class plots the graph for one channel of input
 public class PlotGraph extends ApplicationFrame{
 	
-	XYSeries[] plotValues;
+	XYSeries plotValues[];
+	Color colorlist[] = new Color[]{Color.RED, Color.GREEN, Color.YELLOW, Color.BLACK, Color.PINK};
+	int i;
 	public PlotGraph(String title) {
 		super(title);
 	}
@@ -32,22 +34,17 @@ public class PlotGraph extends ApplicationFrame{
 		final XYPlot plot = xyLineChart.getXYPlot();
 		
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
-		//XYLineAndShapeRenderer renderer2 = new XYLineAndShapeRenderer( );
-		//TODO Modify setSeriesPaint to incorporate different colors for different channel plots
 	    renderer.setSeriesPaint( 0 , Color.RED );
 	    renderer.setSeriesPaint( 1 , Color.GREEN );
-	      renderer.setSeriesPaint( 2 , Color.YELLOW );
-	      renderer.setSeriesPaint( 1 , Color.BLACK );
-	      renderer.setSeriesPaint( 2 , Color.PINK);
-	      renderer.setSeriesStroke( 0 , new BasicStroke( 4.0f ) );
-	      renderer.setSeriesStroke( 1 , new BasicStroke( 3.0f ) );
-	    renderer.setSeriesStroke( 2 , new BasicStroke( 2.0f ) );
-	    renderer.setSeriesStroke( 1 , new BasicStroke( 5.0f ) );
-	    renderer.setSeriesStroke( 2 , new BasicStroke( 1.0f ) );
+	    renderer.setSeriesPaint( 2 , Color.YELLOW );
+	    renderer.setSeriesPaint( 1 , Color.BLACK );
+	    renderer.setSeriesPaint( 2 , Color.PINK);
+	    for(i = 0; i < selectedValue; i++) 
+	    {
+	    	 	renderer.setSeriesPaint( i, colorlist[i] );
+	    		renderer.setSeriesStroke( i, new BasicStroke( 1.0f ) );
+	    }
 	    plot.setRenderer( renderer ); 
-	    //renderer.setSeriesPaint( 1 , Color.BLUE);
-	    //renderer.setSeriesStroke( 1 , new BasicStroke( 2.0f ) );
-	   // plot.setRenderer( renderer2 ); 
 	    setContentPane( chartPanel );
 	    return chartPanel;
 	}
@@ -55,31 +52,23 @@ public class PlotGraph extends ApplicationFrame{
 	
 	//Generates the dataset for plotting the graphs
 	private XYDataset createDataset(int selectedValue, int inputValues[] ) {
-		int i;
-		final XYSeriesCollection dataset = new XYSeriesCollection( ); 
-		plotValues = new XYSeries[selectedValue];//TODO Create different XYSeries objects for different channels input data and modify channel numbers
-	    for(i=0;i<selectedValue;i++)
+		final XYSeriesCollection dataset = new XYSeriesCollection(); 
+		plotValues = new XYSeries[selectedValue];
+	    for(i = 0; i < selectedValue; i++)
 	    {
-	    		plotValues[i] = new XYSeries( "Channel " +i ); 
+	    		plotValues[i] = new XYSeries( "Channel " + (i + 1)); 
 	    }
-	    	for(i=0; i < (inputValues.length-1); i++ )
+	    	for(i = 0; i < (inputValues.length); i++ )
 	    {
 	    		int x = i%selectedValue;
-	    		plotValues[x].add(inputValues[i], inputValues[i+1]);
-	    		
-	    		//plotValues2.add(inputValues[i+1], inputValues[i+2]);
+	    		plotValues[x].add(inputValues[i], inputValues[i]);
 	    }
-	    	for(i=0;i<selectedValue;i++)
+	    	for(i = 0; i < selectedValue; i++)
 	  	{
 	    		dataset.addSeries( plotValues[i]);
 	  	}
-	            
-	       
-	   // dataset.addSeries( plotValues2 ); 
-	 
 	    return dataset;
 	}
-
 	
 }
 
