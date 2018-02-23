@@ -1,3 +1,7 @@
+/**
+ * @SER516 Project2_Team05
+ */
+
 package Client;
 
 import Shared.Constant;
@@ -54,17 +58,14 @@ public class ClientUI{
         startStop.setBounds(580, 10, 190, 30);
         startStop.setBorder(BorderFactory.createLineBorder(Color.black));
         startStop.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
             		clientRunning = !clientRunning;
             		client = client.getClientInstance();
-                if(clientRunning)
-                {
+                if(clientRunning) {
                     System.out.println("Client is running..."); // print command on console
                     client.startClient();
                 }
-                else
-                {
+                else {
                     System.out.println("Client is Stopped...");  // print command on console
                     client.stopClient();
                 }
@@ -152,10 +153,8 @@ public class ClientUI{
 
         /* Highest Value calculation */
         int maxValue = -999;
-        for (int i = 1; i < inputValues.length; i++)
-        {
-            if (inputValues[i] > maxValue)
-            {
+        for (int i = 1; i < inputValues.length; i++) {
+            if (inputValues[i] > maxValue) {
                 maxValue = inputValues[i];
             }
         }
@@ -179,10 +178,8 @@ public class ClientUI{
 
         /* Lowest Value Calculation */
         int minValue = 999;
-        for (int i = 1; i < inputValues.length; i++)
-        {
-            if (inputValues[i] < minValue)
-            {
+        for (int i = 1; i < inputValues.length; i++) {
+            if (inputValues[i] < minValue) {
                 minValue = inputValues[i];
             }
         }
@@ -207,8 +204,7 @@ public class ClientUI{
         /* Average Value calculation */
         int sum = 0;
         int arraySize = inputValues.length;
-        for (int i = 1; i < arraySize; i++)
-        {
+        for (int i = 1; i < arraySize; i++) {
             sum += i;
         }
         int avgValue = sum/arraySize;
