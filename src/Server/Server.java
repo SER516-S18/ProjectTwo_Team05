@@ -22,10 +22,10 @@ public class Server  implements Runnable{
     private DataOutputStream outToClient=null;
     private BufferedReader buffer=null;
     private ServerSocket listener=null;
-    private int highest_value = 1024;
-    private int lowest_value = 0;
-    private int no_of_channels = 2;
-    private int frequency =2;
+    private int highest_value =1024;
+    private int lowest_value =0;
+    private int no_of_channels=2 ;
+    private int frequency=2 ;
     private int port = Constant.PORT_NUMBER;
 
     @Override
@@ -34,6 +34,16 @@ public class Server  implements Runnable{
     }
 
 
+    public void setValues(String highestValue , String lowestValue , String frequency)
+    {
+        if(highestValue!=null)
+            this.highest_value =Integer.parseInt(highestValue);
+        if(lowestValue!=null)
+            this.lowest_value = Integer.parseInt(lowestValue);
+        if(frequency!=null)
+            this.frequency = Integer.parseInt(frequency);
+        
+    }
     public static Server createThreadForServer()
     {
         Server server = new Server();

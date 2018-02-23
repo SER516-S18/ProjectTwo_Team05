@@ -1,15 +1,14 @@
 package Server;
 
 
-import javax.swing.JTextPane;
-
+import javax.swing.*;
 
 
 public class ServerConsole {
 
 
 
-	JTextPane consoleDisplay;
+	JLabel consoleDisplay;
 
 	private static ServerConsole console = null;
 
@@ -29,7 +28,7 @@ public class ServerConsole {
 
 	}
 
-	public void setConsole(JTextPane console) {
+	public void setConsole(JLabel console) {
 
 		this.consoleDisplay = console;
 

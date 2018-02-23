@@ -1,10 +1,10 @@
 package Server;
 
 import Shared.Constant;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;// imports all the functions present in the swing library
-import java.awt.*;// imports all the functions present in awt library
+import javax.swing.*;
 /**
  * The below class creates a Window Server.
  * @author (Venkata Akhil Madaraju)
@@ -43,8 +43,8 @@ public class ServerUI
         consoleLabel.setBounds(5, 10, 80, 10);
         consolePanel.add(consoleLabel);
 
-        JTextPane consoleMessage = new JTextPane();
-        consoleMessage.setBounds(70, 5, 500, 30);
+        JLabel consoleMessage = new JLabel();
+        consoleMessage.setBounds(70, 5, 1000, 40);
         consoleMessage.setBackground(Color.lightGray);
         consolePanel.add(consoleMessage);
 
@@ -52,33 +52,7 @@ public class ServerUI
         startStop.setBackground(LIGHTPINK);
         startStop.setBounds(580, 15, 190, 30);
         startStop.setBorder(BorderFactory.createLineBorder(Color.black));
-        
-        ServerStatusView statusView = new ServerStatusView();
-
-        startStop.addActionListener(new ActionListener() {
-            
-            public void actionPerformed(ActionEvent e) {
-                ServerRunning = !ServerRunning;
-
-                if(ServerRunning)
-                {
-                    console.setConsole(consoleMessage);
-                    console.print("Server is Running on Port Number 1516.");
-                    setThreadForServer(Server.createThreadForServer());
-                    statusView.running = true;
-                    statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
-                }
-                else
-                {
-                		statusView.running = false;
-                    statusView.statusBlinker.setForeground(COLOR_OFF);
-                    console.setConsole(consoleMessage);
-                    console.print("Server is Stopped on Port Number 1516.");
-                    serverThread = getThreadForServer();
-                    serverThread.StopServer();
-                }
-            }
-        });
+       
         f.add(startStop);
 
 
@@ -89,41 +63,38 @@ public class ServerUI
         f.add(upPanel);
         upPanel.setLayout(null);
 
-        statusView.setBounds(15, 15, 520, 520);
-        upPanel.add(statusView);
-
 
         /*Highest Value Label */
-        JLabel highVal = new JLabel("<html>Highest<br>value:</html>");
-        highVal.setBorder(BorderFactory.createLineBorder(Color.black));
-        highVal.setBackground(LIGHTBLUE);
-        highVal.setBounds(560,15,85,60);
-        highVal.setHorizontalAlignment(SwingConstants.CENTER);
-        highVal.setOpaque(true);
-        upPanel.add(highVal);
+        JLabel highestText = new JLabel("<html>Highest<br>value:</html>");
+        highestText.setBorder(BorderFactory.createLineBorder(Color.black));
+        highestText.setBackground(LIGHTBLUE);
+        highestText.setBounds(560,15,85,60);
+        highestText.setHorizontalAlignment(SwingConstants.CENTER);
+        highestText.setOpaque(true);
+        upPanel.add(highestText);
 
         /* Highest Value TextPane */
-        JTextPane highTxt = new JTextPane();
-        highTxt.setBorder(BorderFactory.createLineBorder(Color.black));
-        highTxt.setBackground(LIGHTPINK);
-        highTxt.setBounds(655,15,85,60);
-        upPanel.add(highTxt);
+        JTextPane highestValue = new JTextPane();
+        highestValue.setBorder(BorderFactory.createLineBorder(Color.black));
+        highestValue.setBackground(LIGHTPINK);
+        highestValue.setBounds(655,15,85,60);
+        upPanel.add(highestValue);
 
         /* Lowest Value Label */
-        JLabel lowVal = new JLabel("<html>Lowest<br>value:</html>");
-        lowVal.setBorder(BorderFactory.createLineBorder(Color.black));
-        lowVal.setBackground(LIGHTPINK);
-        lowVal.setBounds(560,90,85,60);
-        lowVal.setHorizontalAlignment(SwingConstants.CENTER);
-        lowVal.setOpaque(true);
-        upPanel.add(lowVal);
+        JLabel lowestText = new JLabel("<html>Lowest<br>value:</html>");
+        lowestText.setBorder(BorderFactory.createLineBorder(Color.black));
+        lowestText.setBackground(LIGHTPINK);
+        lowestText.setBounds(560,90,85,60);
+        lowestText.setHorizontalAlignment(SwingConstants.CENTER);
+        lowestText.setOpaque(true);
+        upPanel.add(lowestText);
 
         /* Lowest Value TextPane */
-        JTextPane lowTxt = new JTextPane();
-        lowTxt.setBorder(BorderFactory.createLineBorder(Color.black));
-        lowTxt.setBackground(LIGHTBLUE);
-        lowTxt.setBounds(655,90,85,60);
-        upPanel.add(lowTxt);
+        JTextPane lowestValue = new JTextPane();
+        lowestValue.setBorder(BorderFactory.createLineBorder(Color.black));
+        lowestValue.setBackground(LIGHTBLUE);
+        lowestValue.setBounds(655,90,85,60);
+        upPanel.add(lowestValue);
 
         JLabel frequency = new JLabel("<html>Frequency<br>(Hz):</html>");
         frequency.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -133,13 +104,79 @@ public class ServerUI
         frequency.setOpaque(true);
         upPanel.add(frequency);
 
-        JTextPane freqTxt = new JTextPane();
-        freqTxt.setBorder(BorderFactory.createLineBorder(Color.black));
-        freqTxt.setBackground(LIGHTPINK);
-        freqTxt.setBounds(655,165,85,60);
-        upPanel.add(freqTxt);
+        JTextPane frequencyValue = new JTextPane();
+        frequencyValue.setBorder(BorderFactory.createLineBorder(Color.black));
+        frequencyValue.setBackground(LIGHTPINK);
+        frequencyValue.setBounds(655,165,85,60);
+        upPanel.add(frequencyValue);
 
+        ServerStatusView statusView = new ServerStatusView();
 
+        statusView.setBounds(15, 15, 520, 520);
+        upPanel.add(statusView);
+
+        startStop.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                ServerRunning = !ServerRunning;
+
+                if(ServerRunning)
+                {
+
+                    if(!(highestValue.getText()).equals("") && !(lowestValue.getText()).equals("") && !(frequency.getText()).equals(""))
+                    {
+                        console.setConsole(consoleMessage);
+                        console.print("Server is Running on Port Number 1516.");
+                        serverThread.setValues(highestValue.getText(),lowestValue.getText() ,frequencyValue.getText());
+                        setThreadForServer(Server.createThreadForServer());
+                        statusView.running = true;
+                        statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+                    }
+                    else if ((highestValue.getText()).equals("") && (lowestValue.getText()).equals("") && (frequency.getText()).equals(""))
+                    {
+                        console.setConsole(consoleMessage);
+                        console.print("Default Highest value , Lowest value and Frequency will be used. Server is Running on Port Number 1516.");
+                        setThreadForServer(Server.createThreadForServer());
+                        statusView.running = true;
+                        statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+                    }
+                    else if ((highestValue.getText()).equals(""))
+                    {
+                        console.setConsole(consoleMessage);
+                        console.print("HighestValue is not entered. Default Value 1024 will be used as highest value. Server is Running on Port Number 1516.");
+                        setThreadForServer(Server.createThreadForServer());
+                        statusView.running = true;
+                        statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+                    }
+                    else if ((lowestValue.getText()).equals(""))
+                    {
+                        console.setConsole(consoleMessage);
+                        console.print("LowestValue is not entered. Default Value 0 will be used as Lowest value. Server is Running on Port Number 1516.");
+                        setThreadForServer(Server.createThreadForServer());
+                        statusView.running = true;
+                        statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+                    }
+                    else if ((frequency.getText()).equals("") )
+                    {
+                        console.setConsole(consoleMessage);
+                        console.print("Frequency is not entered. Default Value 2 will be used for Frequency.Server is Running on Port Number 1516.");
+                        setThreadForServer(Server.createThreadForServer());
+                        statusView.running = true;
+                        statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+                    }
+
+                }
+                else
+                {
+                    statusView.running = false;
+                    statusView.statusBlinker.setForeground(COLOR_OFF);
+                    console.setConsole(consoleMessage);
+                    console.print("Server is Stopped on Port Number 1516.");
+                    serverThread = getThreadForServer();
+                    serverThread.StopServer();
+                }
+            }
+        });
         upPanel.repaint();
         consolePanel.repaint();
     }
