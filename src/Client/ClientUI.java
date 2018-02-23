@@ -28,6 +28,8 @@ public class ClientUI{
     public Color LIGHTPINK = Constant.LIGHTPINK;
     private String[] valuesForDropDown = new String[] {"1", "2", "3", "4", "5"};
     private JComboBox<String> channelDropDown;
+    int selectedValue = 5;
+    ChartPanel chartPanel;
 
 
     Client client;
@@ -82,15 +84,52 @@ public class ClientUI{
         consolePanel.setBounds(10, 610, 760, 130);
         f.add(consolePanel);
         consolePanel.setLayout(null);
+        /* Channels Label */
+        JLabel channels = new JLabel("<html>Channels:</html>");
+        channels.setBorder(BorderFactory.createLineBorder(Color.black));
+        channels.setBackground(LIGHTPINK);
+        channels.setBounds(560,245,85,60);
+        channels.setHorizontalAlignment(SwingConstants.CENTER);
+        channels.setOpaque(true);
+        dataPanel.add(channels);
 
+        
+        /*Channels Dropdown and select Combobox*/
+        channelDropDown = new JComboBox<String>(valuesForDropDown);
+        channelDropDown.setVisible(true);
+        channelDropDown.setBorder(BorderFactory.createLineBorder(Color.black));
+        channelDropDown.setBackground(LIGHTBLUE);
+        channelDropDown.setBounds(655,245,85,60);
+       
+        dataPanel.add(channelDropDown);
+        dataPanel.add(channelDropDown);
+        
         /* sub-panel of dataPanel to display graph */
         JPanel graphPanel = new JPanel();
         //TODO Get numbers from the client 
-        //int inputValues[] = {1, 2, 3, 4, 5};
+        int inputValues[] = {5, 2, 6, 3, 8,3,2,1,4,7};
 	    PlotGraph chart = new PlotGraph("");
-	    ChartPanel chartPanel = chart.PlotGraphMethod();
-	    chart.pack( );          
-	    chartPanel.setVisible( true );     
+	    chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
+        chart.pack( );          
+	    	    chartPanel.setVisible( true );     
+        channelDropDown.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedValue = Integer.parseInt(channelDropDown.getSelectedItem().toString());
+                chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
+                chart.pack( );          
+        	    	    chartPanel.setVisible( true ); 
+        	    	    graphPanel.add(chartPanel);
+        	    	    graphPanel.setVisible(true);
+        	    	    dataPanel.add(graphPanel);
+        	    	    dataPanel.setVisible(true);
+        	    	    f.add(dataPanel);
+        	    	   f.setVisible(true);
+            }
+        });
+
+	   
         
      
 	    graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -148,30 +187,8 @@ public class ClientUI{
         avgTxt.setBounds(655,165,85,60);
         dataPanel.add(avgTxt);
 
-        /* Channels Label */
-        JLabel channels = new JLabel("<html>Channels:</html>");
-        channels.setBorder(BorderFactory.createLineBorder(Color.black));
-        channels.setBackground(LIGHTPINK);
-        channels.setBounds(560,245,85,60);
-        channels.setHorizontalAlignment(SwingConstants.CENTER);
-        channels.setOpaque(true);
-        dataPanel.add(channels);
-
-        /*Channels Dropdown and select Combobox*/
-        channelDropDown = new JComboBox<String>(valuesForDropDown);
-        channelDropDown.setVisible(true);
-        channelDropDown.setBorder(BorderFactory.createLineBorder(Color.black));
-        channelDropDown.setBackground(LIGHTBLUE);
-        channelDropDown.setBounds(655,245,85,60);
-        channelDropDown.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedValue = (String)channelDropDown.getSelectedItem();
-            }
-        });
-        dataPanel.add(channelDropDown);
-        dataPanel.add(channelDropDown);
+       
+      
         
 
         /* Frequency Label */
@@ -197,6 +214,9 @@ public class ClientUI{
 
         dataPanel.repaint();
         consolePanel.repaint();
+        
+        
+       
         f.setVisible(true);
        
     }
