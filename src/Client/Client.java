@@ -50,18 +50,13 @@ public class Client {
 	    
 	    //receiving data from server
             inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-           // String responseLine = null;
-            for(int j=1;j<=frequency;j++) {
-            	for(int i=1;i<=no_of_channels;i++) {
-    				stream[i]=Integer.parseInt(inFromServer.readLine());
-    				System.out.println( stream[i]);
-                }
+            String data = inFromServer.readLine();
+            String[] stringArray = data.split(",");
+            int[] intArray = new int[stringArray.length];
+            for (int i = 0; i < stringArray.length; i++) {
+               String numberAsString = stringArray[i];
+               intArray[i] = Integer.parseInt(numberAsString);
             }
-          /*  while ( ( responseLine =inFromServer.readLine())!=null) {
-
-                System.out.println( responseLine);
-
-            }*/
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host: " + hostname);
