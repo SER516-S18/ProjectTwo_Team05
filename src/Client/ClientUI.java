@@ -86,9 +86,9 @@ public class ClientUI{
         /* sub-panel of dataPanel to display graph */
         JPanel graphPanel = new JPanel();
         //TODO Get numbers from the client 
-        int inputValues[] = {1, 2, 3, 4, 5};
+        //int inputValues[] = {1, 2, 3, 4, 5};
 	    PlotGraph chart = new PlotGraph("");
-	    ChartPanel chartPanel = chart.PlotGraphMethod(inputValues);
+	    ChartPanel chartPanel = chart.PlotGraphMethod();
 	    chart.pack( );          
 	    chartPanel.setVisible( true );     
         
@@ -168,11 +168,11 @@ public class ClientUI{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedValue = (String)channelDropDown.getSelectedItem();
-
             }
         });
         dataPanel.add(channelDropDown);
         dataPanel.add(channelDropDown);
+        
 
         /* Frequency Label */
         JLabel frequency = new JLabel("<html>Frequency<br>(Hz):</html>");
