@@ -147,10 +147,21 @@ public class ClientUI{
         highVal.setOpaque(true);
         dataPanel.add(highVal);
 
-        /* Highest Value TextPane */
-        JTextPane highTxt = new JTextPane();
+        /* Highest Value calculation */
+        int maxValue = -999;
+        for (int i = 1; i < inputValues.length; i++)
+        {
+            if (inputValues[i] > maxValue)
+            {
+                maxValue = inputValues[i];
+            }
+        }
+
+        /* Highest Value Label */
+        JLabel highTxt = new JLabel(""+maxValue+"",SwingConstants.CENTER);
         highTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         highTxt.setBackground(LIGHTPINK);
+        highTxt.setOpaque(true);
         highTxt.setBounds(655,15,85,60);
         dataPanel.add(highTxt);
 
@@ -163,10 +174,21 @@ public class ClientUI{
         lowVal.setOpaque(true);
         dataPanel.add(lowVal);
 
-        /* Lowest Value TextPane */
-        JTextPane lowTxt = new JTextPane();
+        /* Lowest Value Calculation */
+        int minValue = 999;
+        for (int i = 1; i < inputValues.length; i++)
+        {
+            if (inputValues[i] < minValue)
+            {
+                minValue = inputValues[i];
+            }
+        }
+
+        /* Lowest Value Number Label */
+        JLabel lowTxt = new JLabel(""+minValue+"",SwingConstants.CENTER);
         lowTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         lowTxt.setBackground(LIGHTBLUE);
+        lowTxt.setOpaque(true);
         lowTxt.setBounds(655,90,85,60);
         dataPanel.add(lowTxt);
 
@@ -179,10 +201,20 @@ public class ClientUI{
         average.setOpaque(true);
         dataPanel.add(average);
 
-        /* Average Value TextPane */
-        JTextPane avgTxt = new JTextPane();
+        /* Average Value calculation */
+        int sum = 0;
+        int arraySize = inputValues.length;
+        for (int i = 1; i < arraySize; i++)
+        {
+            sum += i;
+        }
+        int avgValue = sum/arraySize;
+
+        /* Average Value Number Label */
+        JLabel avgTxt = new JLabel(""+avgValue+"",SwingConstants.CENTER);
         avgTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         avgTxt.setBackground(LIGHTPINK);
+        average.setOpaque(true);
         avgTxt.setBounds(655,165,85,60);
         dataPanel.add(avgTxt);
 
