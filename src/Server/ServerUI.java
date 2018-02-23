@@ -13,11 +13,13 @@ import java.awt.*;// imports all the functions present in awt library
 
 public class ServerUI
 {
-    public Color LIGHTBLUE = Constant.LIGHTBLUE;
-    public Color LIGHTPINK = Constant.LIGHTPINK;
+    public static Color LIGHTBLUE = Constant.LIGHTBLUE;
+    public static Color LIGHTPINK = Constant.LIGHTPINK;
     Server serverThread;
-    private boolean ServerRunning = false;
+    public static boolean ServerRunning = false;
     private ServerConsole console ;
+    private final Color COLOR_OFF = Color.red;
+    private final Color COLOR_ON_BRIGHT = new Color(168,208,141);
 
     public ServerUI()
     {
@@ -50,6 +52,8 @@ public class ServerUI
         startStop.setBackground(LIGHTPINK);
         startStop.setBounds(580, 15, 190, 30);
         startStop.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        ServerStatusView statusView = new ServerStatusView();
 
         startStop.addActionListener(new ActionListener() {
             
@@ -61,19 +65,21 @@ public class ServerUI
                     console.setConsole(consoleMessage);
                     console.print("Server is Running on Port Number 1516.");
                     setThreadForServer(Server.createThreadForServer());
+                    statusView.running = true;
+                    statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
                 }
                 else
                 {
+                		statusView.running = false;
+                    statusView.statusBlinker.setForeground(COLOR_OFF);
                     console.setConsole(consoleMessage);
                     console.print("Server is Stopped on Port Number 1516.");
                     serverThread = getThreadForServer();
                     serverThread.StopServer();
-
                 }
             }
         });
         f.add(startStop);
-
 
 
         JPanel upPanel = new JPanel();
@@ -83,15 +89,8 @@ public class ServerUI
         f.add(upPanel);
         upPanel.setLayout(null);
 
-        
-        
-
-
-        JPanel circle = new Circle(235, 225, 130, Color.green);
-        circle.setBounds(15, 15, 520, 520);
-        circle.setBackground(LIGHTPINK);
-        circle.setBorder(BorderFactory.createLineBorder(Color.black));
-        upPanel.add(circle);
+        statusView.setBounds(15, 15, 520, 520);
+        upPanel.add(statusView);
 
 
         /*Highest Value Label */
