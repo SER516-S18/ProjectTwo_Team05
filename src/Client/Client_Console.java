@@ -19,3 +19,10 @@ public class Client_Console {
 //add contsructor
 
 	}
+
+public void print(String text) {
+
+		this.consoleDisplay.setText("Message:" + text);
+
+	}
+	
