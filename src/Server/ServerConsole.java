@@ -1,6 +1,7 @@
 package Server;
 
 
+import java.awt.*;
 import javax.swing.*;
 
 
@@ -11,31 +12,40 @@ import javax.swing.*;
 public class ServerConsole {
 
 
+	JLabel consoleMessage;
+	JPanel consolePanel;
+	JLabel consoleLabel;
 
-	JLabel consoleDisplay;
+	public ServerConsole()
+	{
+		consolePanel = new JPanel();
+		consolePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		consolePanel.setBackground(Color.lightGray);
+		consolePanel.setBounds(10, 610, 760, 130);
 
-	private static ServerConsole console = null;
+		consoleLabel = new JLabel(" Console :");
+		consoleLabel.setBounds(5, 10, 80, 10);
+		consolePanel.add(consoleLabel);
 
-	public void print(String text) {
-
-		this.consoleDisplay.setText(text);
-
-	}
-	
-	public static ServerConsole getConsole() {
-
-		if (null == console)
-
-		{	console = new ServerConsole();}
-
-		return console;	
-
-	}
-
-	public void setConsole(JLabel console) {
-
-		this.consoleDisplay = console;
+		consoleMessage = new JLabel();
+		consoleMessage.setBounds(70, 5, 1000, 40);
+		consoleMessage.setBackground(Color.lightGray);
+		consolePanel.add(consoleMessage);
+		consolePanel.repaint();
 
 	}
+	public void setConsoleMessage(String text) {
+
+		this.consoleMessage.setText(text);
+
+	}
+
+
+	public JPanel getConsolePanel() {
+
+		return this.consolePanel;
+
+	}
+
 
 }
