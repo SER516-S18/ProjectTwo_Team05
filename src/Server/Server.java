@@ -65,24 +65,32 @@ public class Server  implements Runnable{
         System.out.println("Server has stopped");
         // print message on console
     }
+    public void getValuesFromClient () {
+    	String data= new String();
+    	try {
+    	 	  data= buffer.readLine();
+    	 	} catch (IOException e) {
+    	 		// TODO Auto-generated catch block
+    	 	  e.printStackTrace();
+    	 	}
+    	 String []t=data.split(",");
+    	 frequency= Integer.parseInt(t[0]);
+    	 no_of_channels = Integer.parseInt(t[1]);
+    	 	}
     
-	public int getFrequency() {
-		try {
-			frequency= buffer.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+    public int getFrequency() {
+    	getValuesFromClient();
+    	 return frequency;
+    	 	}
+    
+	public int getChannels() {
+		getValuesFromClient();
+ 		return no_of_channels;
+	}
+	public int getCurrentFrequency() {
 		return frequency;
 	}
-	
-	public int getChannels() {
-		try {
-			no_of_channels= buffer.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public int getCurrentChannel() {
 		return no_of_channels;
 	}
 	/* server starts and sends random numbers to the client 
@@ -115,7 +123,14 @@ public class Server  implements Runnable{
                         buffer = new BufferedReader(new InputStreamReader(System.in));                        
                         Thread thread = new Thread(new Runnable() {
                             public void run() {
+                            	getValuesFromClient();
                                 while (!checkServerStatus()) {
+                                 	if(frequency!=getFrequency()) {
+                                 	frequency=getCurrentFrequency();
+                                 	}
+                                 	if(no_of_channels!=getChannels()) {
+                                     	no_of_channels=getCurrentChannel();
+                                     	}
                                 	System.out.println("Inside second while");
                                     for (int j = 1; j <= frequency; j++) {
                                         for (int i = 1; i <= no_of_channels; i++) {
