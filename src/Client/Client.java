@@ -40,17 +40,13 @@ public class Client {
         // Try to open input and output streams
 
         try {
-            clientSocket = new Socket(hostname, port);
-	    //sending data to server
-            os = new DataOutputStream(clientSocket.getOutputStream());
-            OutputStreamWriter osw = new OutputStreamWriter(os);
-            BufferedWriter bw = new BufferedWriter(osw);
-            String sendMessage = frequency + "," + no_of_channels;
-            bw.write(sendMessage);
-            bw.flush();
-	    
+        	InetAddress address = InetAddress.getByName(hostname);
+            clientSocket = new Socket(address, port);
+	   
 	    //receiving data from server
-            inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            InputStream is = clientSocket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            inFromServer = new BufferedReader(isr);
             String data = inFromServer.readLine();
             String[] stringArray = data.split(",");
              values_received = new int[stringArray.length];

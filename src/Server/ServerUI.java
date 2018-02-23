@@ -127,8 +127,8 @@ public class ServerUI
                     {
                         console.setConsole(consoleMessage);
                         console.print("Server is Running on Port Number 1516.");
-                        serverThread.setValues(highestValue.getText(),lowestValue.getText() ,frequencyValue.getText());
                         setThreadForServer(Server.createThreadForServer());
+                        serverThread.setValues(highestValue.getText(),lowestValue.getText() ,frequencyValue.getText());
                         statusView.running = true;
                         statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
                     }
