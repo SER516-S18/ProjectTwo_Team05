@@ -62,23 +62,26 @@ public class Server  implements Runnable{
         // print message on console
     }
     
-	public int getFrequency() {
+	public void getValuesFromClient () {
+		String data= new String();
 		try {
-			frequency= buffer.read();
+			 data= buffer.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		 String []t=data.split(",");
+		 frequency= Integer.parseInt(t[0]);
+		 no_of_channels = Integer.parseInt(t[1]);
+	}
+	
+	public int getFrequency() {
+		getValuesFromClient();
 		return frequency;
 	}
 	
 	public int getChannels() {
-		try {
-			no_of_channels= buffer.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		getValuesFromClient();
 		return no_of_channels;
 	}
 	
@@ -107,9 +110,9 @@ public class Server  implements Runnable{
                         
                        Thread thread = new Thread(new Runnable() {
                             public void run() {
-                            	frequency= getFrequency();
-                            	no_of_channels= getChannels();
+                            	
                                 while (!checkServerStatus()) {
+                                	getValuesFromClient();
                                 	if(frequency!=getFrequency()) {
                                 		frequency=getFrequency();
                                 	}
