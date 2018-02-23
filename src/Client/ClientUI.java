@@ -111,7 +111,7 @@ public class ClientUI{
 	    chart = new PlotGraph("");
 	    chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
         chart.pack( );          
-	    	chartPanel.setVisible( true );     
+	    	chartPanel.setVisible(false);     
         channelDropDown.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,9 +130,6 @@ public class ClientUI{
         	    	    f.repaint();
             }
         });
-
-	   
-        
      
 	    graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         graphPanel.setBackground(LIGHTPINK);
