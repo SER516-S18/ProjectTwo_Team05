@@ -32,21 +32,10 @@ public class ServerUI
         f.setVisible(true);
         f.setLayout(null);
 
-        JPanel consolePanel = new JPanel();
-        consolePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        consolePanel.setBackground(Color.lightGray);
-        consolePanel.setBounds(10, 610, 760, 130);
+        JPanel consolePanel = console.getConsolePanel();
         f.add(consolePanel);
         consolePanel.setLayout(null);
 
-        JLabel consoleLabel = new JLabel(" Console :");
-        consoleLabel.setBounds(5, 10, 80, 10);
-        consolePanel.add(consoleLabel);
-
-        JLabel consoleMessage = new JLabel();
-        consoleMessage.setBounds(70, 5, 1000, 40);
-        consoleMessage.setBackground(Color.lightGray);
-        consolePanel.add(consoleMessage);
 
         JButton startStop = new JButton("start / stop");
         startStop.setBackground(LIGHTPINK);
@@ -125,8 +114,7 @@ public class ServerUI
 
                     if(!(highestValue.getText()).equals("") && !(lowestValue.getText()).equals("") && !(frequencyValue.getText()).equals(""))
                     {
-                        console.setConsole(consoleMessage);
-                        console.print("Server is Running on Port Number 1516.");
+                        console.setConsoleMessage("Server is Running on Port Number 1516.");
                         serverThread.setValues(highestValue.getText(),lowestValue.getText() ,frequencyValue.getText());
                         setThreadForServer(Server.createThreadForServer());
                         statusView.running = true;
@@ -134,32 +122,28 @@ public class ServerUI
                     }
                     else if ((highestValue.getText()).equals("") && (lowestValue.getText()).equals("") && (frequencyValue.getText()).equals(""))
                     {
-                        console.setConsole(consoleMessage);
-                        console.print("Default Highest value , Lowest value and Frequency will be used. Server is Running on Port Number 1516.");
+                        console.setConsoleMessage("Default Highest value , Lowest value and Frequency will be used. Server is Running on Port Number 1516.");
                         setThreadForServer(Server.createThreadForServer());
                         statusView.running = true;
                         statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
                     }
                     else if ((highestValue.getText()).equals(""))
                     {
-                        console.setConsole(consoleMessage);
-                        console.print("HighestValue is not entered. Default Value 1024 will be used as highest value. Server is Running on Port Number 1516.");
+                        console.setConsoleMessage("HighestValue is not entered. Default Value 1024 will be used as highest value. Server is Running on Port Number 1516.");
                         setThreadForServer(Server.createThreadForServer());
                         statusView.running = true;
                         statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
                     }
                     else if ((lowestValue.getText()).equals(""))
                     {
-                        console.setConsole(consoleMessage);
-                        console.print("LowestValue is not entered. Default Value 0 will be used as Lowest value. Server is Running on Port Number 1516.");
+                        console.setConsoleMessage("LowestValue is not entered. Default Value 0 will be used as Lowest value. Server is Running on Port Number 1516.");
                         setThreadForServer(Server.createThreadForServer());
                         statusView.running = true;
                         statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
                     }
                     else if ((frequencyValue.getText()).equals("") )
                     {
-                        console.setConsole(consoleMessage);
-                        console.print("Frequency is not entered. Default Value 2 will be used for Frequency.Server is Running on Port Number 1516.");
+                        console.setConsoleMessage("Frequency is not entered. Default Value 2 will be used for Frequency.Server is Running on Port Number 1516.");
                         setThreadForServer(Server.createThreadForServer());
                         statusView.running = true;
                         statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
@@ -170,8 +154,8 @@ public class ServerUI
                 {
                     statusView.running = false;
                     statusView.statusBlinker.setForeground(COLOR_OFF);
-                    console.setConsole(consoleMessage);
-                    console.print("Server is Stopped on Port Number 1516.");
+                    //console.setConsole(consoleMessage);
+                    console.setConsoleMessage("Server is Stopped on Port Number 1516.");
                     serverThread = getThreadForServer();
                     serverThread.StopServer();
                 }
