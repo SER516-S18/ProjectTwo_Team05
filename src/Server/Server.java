@@ -42,7 +42,7 @@ public class Server  implements Runnable{
             this.lowest_value = Integer.parseInt(lowestValue);
         if(frequency!=null)
             this.frequency = Integer.parseInt(frequency);
-        
+
     }
     public static Server createThreadForServer()
     {

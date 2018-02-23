@@ -123,7 +123,7 @@ public class ServerUI
                 if(ServerRunning)
                 {
 
-                    if(!(highestValue.getText()).equals("") && !(lowestValue.getText()).equals("") && !(frequency.getText()).equals(""))
+                    if(!(highestValue.getText()).equals("") && !(lowestValue.getText()).equals("") && !(frequencyValue.getText()).equals(""))
                     {
                         console.setConsole(consoleMessage);
                         console.print("Server is Running on Port Number 1516.");
@@ -132,7 +132,7 @@ public class ServerUI
                         statusView.running = true;
                         statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
                     }
-                    else if ((highestValue.getText()).equals("") && (lowestValue.getText()).equals("") && (frequency.getText()).equals(""))
+                    else if ((highestValue.getText()).equals("") && (lowestValue.getText()).equals("") && (frequencyValue.getText()).equals(""))
                     {
                         console.setConsole(consoleMessage);
                         console.print("Default Highest value , Lowest value and Frequency will be used. Server is Running on Port Number 1516.");
@@ -156,7 +156,7 @@ public class ServerUI
                         statusView.running = true;
                         statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
                     }
-                    else if ((frequency.getText()).equals("") )
+                    else if ((frequencyValue.getText()).equals("") )
                     {
                         console.setConsole(consoleMessage);
                         console.print("Frequency is not entered. Default Value 2 will be used for Frequency.Server is Running on Port Number 1516.");
