@@ -35,3 +35,9 @@ public static Console getConsole() {
 		return console;	
 
 	}
+public void setConsole(JTextPane console) {
+
+		this.consoleDisplay = console;
+
+	}
+}	
