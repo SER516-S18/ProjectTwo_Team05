@@ -14,6 +14,7 @@ public class Client {
     int[] stream=new int[100];
     int no_of_channels=2;
     int frequency=2;
+    int []values_received;
 
     // declaration section:
     // clientSocket: our client socket
@@ -52,10 +53,10 @@ public class Client {
             inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String data = inFromServer.readLine();
             String[] stringArray = data.split(",");
-            int[] intArray = new int[stringArray.length];
+             values_received = new int[stringArray.length];
             for (int i = 0; i < stringArray.length; i++) {
                String numberAsString = stringArray[i];
-               intArray[i] = Integer.parseInt(numberAsString);
+               values_received[i] = Integer.parseInt(numberAsString);
             }
 
         } catch (UnknownHostException e) {
@@ -73,6 +74,10 @@ public class Client {
             return;
         }
 
+	}
+	
+	public int[] sendValuesToClientUI() {
+		return values_received;
 	}
 
 	public void stopClient() {
