@@ -17,11 +17,12 @@ public class ServerUI
     public Color LIGHTPINK = Constant.LIGHTPINK;
     Server serverThread;
     private boolean ServerRunning = false;
+    private ServerConsole console ;
 
     public ServerUI()
     {
         JFrame f = new JFrame();
-
+        console = new ServerConsole();
         f.setTitle("Server");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //f.setSize(800,800);
@@ -29,6 +30,21 @@ public class ServerUI
         f.setVisible(true);
         f.setLayout(null);
 
+        JPanel consolePanel = new JPanel();
+        consolePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        consolePanel.setBackground(Color.lightGray);
+        consolePanel.setBounds(10, 610, 760, 130);
+        f.add(consolePanel);
+        consolePanel.setLayout(null);
+
+        JLabel consoleLabel = new JLabel(" Console :");
+        consoleLabel.setBounds(5, 10, 80, 10);
+        consolePanel.add(consoleLabel);
+
+        JTextPane consoleMessage = new JTextPane();
+        consoleMessage.setBounds(70, 5, 500, 30);
+        consoleMessage.setBackground(Color.lightGray);
+        consolePanel.add(consoleMessage);
 
         JButton startStop = new JButton("start / stop");
         startStop.setBackground(LIGHTPINK);
@@ -42,14 +58,17 @@ public class ServerUI
 
                 if(ServerRunning)
                 {
-                    System.out.println("Server is running..."); // print command on console
+                    console.setConsole(consoleMessage);
+                    console.print("Server is Running on Port Number 1516.");
                     setThreadForServer(Server.createThreadForServer());
                 }
                 else
                 {
+                    console.setConsole(consoleMessage);
+                    console.print("Server is Stopped on Port Number 1516.");
                     serverThread = getThreadForServer();
                     serverThread.StopServer();
-                    System.out.println("Server is Stopped...");  // print command on console
+
                 }
             }
         });
@@ -64,17 +83,7 @@ public class ServerUI
         f.add(upPanel);
         upPanel.setLayout(null);
 
-
-        JPanel downPanel = new JPanel();
-        downPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        downPanel.setBackground(Color.lightGray);
-        downPanel.setBounds(10, 610, 760, 130);
-        f.add(downPanel);
-        downPanel.setLayout(null);
         
-        JLabel consoleLabel = new JLabel(" Console :");
-        consoleLabel.setBounds(5, 10, 80, 10);
-        downPanel.add(consoleLabel);
         
 
 
@@ -133,7 +142,7 @@ public class ServerUI
 
 
         upPanel.repaint();
-        downPanel.repaint();
+        consolePanel.repaint();
     }
 
     public void setThreadForServer(Server serverThread)

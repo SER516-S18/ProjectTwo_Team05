@@ -5,32 +5,25 @@ import javax.swing.JTextPane;
 
 
 
-public class Console {
+public class ServerConsole {
 
 
 
 	JTextPane consoleDisplay;
 
-	private static Console console = null;
+	private static ServerConsole console = null;
 
-
-	public Console() {
-
-//add contsructor
-
-	}
-	
 	public void print(String text) {
 
-		this.consoleDisplay.setText("Message:" + text);
+		this.consoleDisplay.setText(text);
 
 	}
 	
-	public static Console getConsole() {
+	public static ServerConsole getConsole() {
 
 		if (null == console)
 
-		{	console = new Console();}
+		{	console = new ServerConsole();}
 
 		return console;	
 

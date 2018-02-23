@@ -30,7 +30,6 @@ public class Server  implements Runnable{
 
     @Override
     public void run(){
-        System.out.println("Running Server");
         this.StartServer();
     }
 
@@ -38,7 +37,6 @@ public class Server  implements Runnable{
     public static Server createThreadForServer()
     {
         Server server = new Server();
-        System.out.println("creating new thread");
         new Thread(server).start();
         return server;
     }
@@ -62,8 +60,6 @@ public class Server  implements Runnable{
             System.out.println(e.getMessage());
         }
 
-        System.out.println("Server has stopped");
-        // print message on console
     }
     public void getValuesFromClient () {
     	String data= new String();
@@ -96,12 +92,12 @@ public class Server  implements Runnable{
 	/* server starts and sends random numbers to the client 
 	 * */
     public void StartServer () { 
-    	System.out.println("inside Startserver method ");
+
             int stream[][] = new int[100][100];
             String string_stream=new String();
             Random randomNumber = new Random();
             try{
-            	System.out.println("inside first try");
+
                 listener = new ServerSocket(port);
             }
             catch(Exception e)
@@ -110,12 +106,12 @@ public class Server  implements Runnable{
             }
 
             while(this.ServerStatus) {
-            //	System.out.println("inside while");
+
                 try {
-                	//System.out.println("before accept");
+
                     this.ServerStatus = true;                
                     Socket socket = listener.accept();
-                   // System.out.println("Inside first while");
+
                     try {
 
                         input_stream = new DataInputStream(socket.getInputStream());
