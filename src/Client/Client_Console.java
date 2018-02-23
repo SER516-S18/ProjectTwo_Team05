@@ -1,7 +1,10 @@
 package Client;
 
 
+import java.io.Console;
+
 import javax.swing.JTextPane;
+
 
 /*Koushik Kotamraju*/
 
@@ -30,7 +33,8 @@ public static Console getConsole() {
 
 		if (null == console)
 
-		{	console = new Console();}
+		{	//console = new Console();
+		}
 
 		return console;	
 

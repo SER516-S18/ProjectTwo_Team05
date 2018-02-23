@@ -16,7 +16,7 @@ public class Client {
     int frequency=2;
 
     // declaration section:
-    // clientSocket: our cldient socket
+    // clientSocket: our client socket
     // os: output stream
     // is: input stream
 
