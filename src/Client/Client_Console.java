@@ -26,3 +26,12 @@ public void print(String text) {
 
 	}
 	
+public static Console getConsole() {
+
+		if (null == console)
+
+		{	console = new Console();}
+
+		return console;	
+
+	}
