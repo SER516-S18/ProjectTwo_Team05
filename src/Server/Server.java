@@ -6,8 +6,6 @@ package Server;
 
 import Shared.Constant;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -16,31 +14,31 @@ import java.net.Socket;
 import java.util.Random;
 
 /**
- * Server class first accepts number of channels and frequency from the client
- * and then generates and sends random numbers to the client class
- * according to the number of channels and frequency passed using the socket
+ * Server class generates and sends random numbers to the client class
+ * according to the highest and lowest value set at frequency set at
+ * server
  */
 
 public class Server implements Runnable {
 	private boolean ServerStatus;
-    private DataInputStream input_stream =null;
-    private DataOutputStream outToClient=null;
     private BufferedWriter bufferWriter = null;
     private ServerSocket listener=null;
-    private int highest_value = 1024;
-    private int lowest_value = 0;
+    private int highestValue = 1024;
+    private int lowestValue = 0;
     private int frequency = 2;
     private int port = Constant.PORT_NUMBER;
     private String string_stream = "";
     Socket socket;
 
 	/**
-	 * The constructor will set the ServerStatus to false initially
+	 * The constructor will set the ServerStatus to true initially
 	 **/
 	public Server() {
 		ServerStatus = true;
 	}
-
+	/**
+	 * This method starts the server
+	 **/
 	@Override
 	public void run() {
 		this.StartServer();
@@ -55,10 +53,10 @@ public class Server implements Runnable {
 	 **/
 	public void setValues(String highestValue, String lowestValue, String frequency) {
 		if (highestValue != null) {
-			this.highest_value = Integer.parseInt(highestValue);
+			this.highestValue = Integer.parseInt(highestValue);
 		}
 		if (lowestValue != null) {
-			this.lowest_value = Integer.parseInt(lowestValue);
+			this.lowestValue = Integer.parseInt(lowestValue);
 		}
 		if (frequency != null) {
 			this.frequency = Integer.parseInt(frequency);
@@ -66,7 +64,7 @@ public class Server implements Runnable {
 	}
 
 	/**
-	 * createThreadForServer create a new server instance for the thread
+	 * createThreadForServer creates a new server instance for the thread
 	 * and start the thread with new server
 	 * return the thread
 	 * @return server
@@ -131,7 +129,7 @@ public class Server implements Runnable {
             try {
             		this.ServerStatus = false;
                 try {
-                    outToClient = new DataOutputStream(socket.getOutputStream());
+                  //  outToClient = new DataOutputStream(socket.getOutputStream());
                     OutputStream os = socket.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os);
                     bufferWriter = new BufferedWriter(osw);
@@ -140,8 +138,8 @@ public class Server implements Runnable {
                         	try {
                             		while(true) {
                             			for (int j = 0; j < frequency; j++) {
-                               			 Integer valuesToBeSend = lowest_value 
-                               					 + randomNumber.nextInt(highest_value);
+                               			 Integer valuesToBeSend = lowestValue 
+                               					 + randomNumber.nextInt(highestValue);
                                			 string_stream += valuesToBeSend.toString() + ",";
                                      }
    	                        		 	string_stream += "\n";
@@ -165,8 +163,6 @@ public class Server implements Runnable {
                     e.printStackTrace();
         			ServerConsole.getServerConsole().display("Error 404 :Internal Server Error.Error in fetching server status.");
         			return;
-                } finally {
-
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
