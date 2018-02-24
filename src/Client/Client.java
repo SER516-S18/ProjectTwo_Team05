@@ -1,13 +1,8 @@
 package Client;
 
 import Shared.Constant;
-<<<<<<< HEAD
-import java.io.BufferedReader;
-=======
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
->>>>>>> e65759351d6aac70002ea8eeee9704c72db7be67
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,7 +30,6 @@ public class Client implements Runnable{
     // is: input stream
 
     Socket clientSocket = null;
-    DataOutputStream os = null;
     BufferedReader inFromServer = null;
 
     @Override
@@ -99,11 +93,8 @@ public class Client implements Runnable{
         this.clientstatus=false;
         try{
             // clean up:
-            os.close(); // close the output stream
             inFromServer.close();  // close the input stream
             clientSocket.close();  // close the socket
-
-
         }catch(IOException e)
         {
             System.out.println(e.getMessage());
