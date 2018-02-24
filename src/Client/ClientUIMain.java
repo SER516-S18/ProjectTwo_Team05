@@ -42,7 +42,7 @@ public class ClientUIMain {
 	JLabel highTxt;
 	JLabel lowTxt;
 	JLabel avgTxt;
-	int inputValues[] = {1,3,5,364,26,37,735,87,358,87};
+	int inputValues[];
 
 	public ClientUIMain() {
 
@@ -74,7 +74,7 @@ public class ClientUIMain {
 					System.out.println("Before Call");
 					valuesReceived = clientThread.sendValuesToClientUI();
 					System.out.println("After call");
-    	    				int[] inputValues = new int[valuesReceived.size()];
+    	    				inputValues = new int[valuesReceived.size()];
     	    				for (int i=0; i < inputValues.length; i++)
     	    				{
     	    					inputValues[i] = valuesReceived.get(i).intValue();
