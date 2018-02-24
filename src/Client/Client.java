@@ -58,9 +58,9 @@ public class Client implements Runnable{
            
            while ((data = inFromServer.readLine()) != null) {
                String[] stringArray = data.split(",");
-               
+               Integer numberReceived = null;
                for (int i = 0; i < stringArray.length; i++) {
-                  Integer numberReceived = Integer.parseInt(stringArray[i]);
+                  numberReceived = Integer.parseInt(stringArray[i]);
                   values_received.add(numberReceived);
                }
 	       if(stringArray.length<frequency){
