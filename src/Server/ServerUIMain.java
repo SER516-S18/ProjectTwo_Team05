@@ -17,32 +17,24 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
-
 /**
- * ServerUI Class will set the UI for the server frame
- * Start/Stop button will help the server to start or stop the server
- * The ServerStatusView will show the blinker, if the server is working or not 
+ * ServerUI Class will set the UI for the server frame Start/Stop button will
+ * help the server to start or stop the server The ServerStatusView will show
+ * the blinker, if the server is working or not
  */
 
 public class ServerUIMain {
-	public static Color LIGHTBLUE = Constant.LIGHTBLUE;
-	public static Color LIGHTPINK = Constant.LIGHTPINK;
-	public static boolean ServerRunning = false;
-	private ServerConsole console;
-	private final Color COLOR_OFF = Color.red;
-	private final Color COLOR_ON_BRIGHT = new Color(168, 208, 141);
+	public static boolean serverRunning = false;
 	Server serverThread;
 
 	/**
-	 * Constructor for ServerUI
-	 * Set the Frames, Panels and Labels from the ServerUI
+	 * Constructor for ServerUI Set the Frames, Panels and Labels from the ServerUI
 	 * Set the highest value, lowest value and frequency values in TextBox
 	 * Start/Stop button to start or stop the server
 	 */
 	public ServerUIMain() {
-		
+
 		JFrame serverWindow = new JFrame();
-		console = new ServerConsole();
 		serverWindow.setTitle("Server");
 		serverWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		serverWindow.setBounds(100, 100, 800, 800);
@@ -58,9 +50,9 @@ public class ServerUIMain {
 		serverWindow.getContentPane().add(consoleOutput);
 		serverWindow.add(consoleOutput);
 		consoleOutput.setLayout(null);
-		
+
 		JButton startStop = new JButton(Constant.STARTSTOPLABELNAME);
-		startStop.setBackground(LIGHTPINK);
+		startStop.setBackground(Constant.LIGHTPINK);
 		startStop.setBounds(580, 15, 190, 30);
 		startStop.setBorder(BorderFactory.createLineBorder(Color.black));
 		serverWindow.add(startStop);
@@ -71,14 +63,14 @@ public class ServerUIMain {
 		mainPanel.setBounds(10, 50, 760, 550);
 		mainPanel.setLayout(null);
 		serverWindow.add(mainPanel);
-		
+
 		ServerStatusView statusView = new ServerStatusView();
 		statusView.setBounds(15, 15, 520, 520);
 		mainPanel.add(statusView);
-		
+
 		JLabel highestValueLabel = new JLabel("<html>Highest<br>value:</html>");
 		highestValueLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		highestValueLabel.setBackground(LIGHTBLUE);
+		highestValueLabel.setBackground(Constant.LIGHTBLUE);
 		highestValueLabel.setBounds(560, 15, 85, 60);
 		highestValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		highestValueLabel.setOpaque(true);
@@ -86,7 +78,7 @@ public class ServerUIMain {
 
 		JTextField highestValueTextBox = new JTextField();
 		highestValueTextBox.setBorder(BorderFactory.createLineBorder(Color.black));
-		highestValueTextBox.setBackground(LIGHTPINK);
+		highestValueTextBox.setBackground(Constant.LIGHTPINK);
 		highestValueTextBox.setFont(Constant.INPUTNUMBERFONT);
 		highestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
 		highestValueTextBox.setBounds(655, 15, 85, 60);
@@ -94,7 +86,7 @@ public class ServerUIMain {
 
 		JLabel lowestValueLabel = new JLabel("<html>Lowest<br>value:</html>");
 		lowestValueLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		lowestValueLabel.setBackground(LIGHTPINK);
+		lowestValueLabel.setBackground(Constant.LIGHTPINK);
 		lowestValueLabel.setBounds(560, 90, 85, 60);
 		lowestValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lowestValueLabel.setOpaque(true);
@@ -102,7 +94,7 @@ public class ServerUIMain {
 
 		JTextField lowestValueTextBox = new JTextField();
 		lowestValueTextBox.setBorder(BorderFactory.createLineBorder(Color.black));
-		lowestValueTextBox.setBackground(LIGHTBLUE);
+		lowestValueTextBox.setBackground(Constant.LIGHTBLUE);
 		lowestValueTextBox.setFont(Constant.INPUTNUMBERFONT);
 		lowestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
 		lowestValueTextBox.setBounds(655, 90, 85, 60);
@@ -110,7 +102,7 @@ public class ServerUIMain {
 
 		JLabel frequencyLabel = new JLabel("<html>Frequency<br>(Hz):</html>");
 		frequencyLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-		frequencyLabel.setBackground(LIGHTBLUE);
+		frequencyLabel.setBackground(Constant.LIGHTBLUE);
 		frequencyLabel.setBounds(560, 165, 85, 60);
 		frequencyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frequencyLabel.setOpaque(true);
@@ -118,7 +110,7 @@ public class ServerUIMain {
 
 		JTextField frequencyValueTextBox = new JTextField();
 		frequencyValueTextBox.setBorder(BorderFactory.createLineBorder(Color.black));
-		frequencyValueTextBox.setBackground(LIGHTPINK);
+		frequencyValueTextBox.setBackground(Constant.LIGHTPINK);
 		frequencyValueTextBox.setFont(Constant.INPUTNUMBERFONT);
 		frequencyValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
 		frequencyValueTextBox.setBounds(655, 165, 85, 60);
@@ -126,48 +118,54 @@ public class ServerUIMain {
 
 		startStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ServerRunning = !ServerRunning;
-				if (ServerRunning) {
-					if (!(highestValueTextBox.getText()).equals("") 
-							&& !(lowestValueTextBox.getText()).equals("") 
+				serverRunning = !serverRunning;
+				if (serverRunning) {
+					if (!(highestValueTextBox.getText()).equals("")
+							&& !(lowestValueTextBox.getText()).equals("")
 							&& !(frequencyValueTextBox.getText()).equals("")) {
-						ServerConsole.getServerConsole().display("Server is Running on Port Number 1516.");
+						ServerConsole.getServerConsole()
+								.display("Server" + "is Running on Port Number 1516.");
 						setThreadForServer(Server.createThreadForServer());
-						serverThread.setValues(highestValueTextBox.getText(), 
+						serverThread.setValues(highestValueTextBox.getText(),
 								lowestValueTextBox.getText(), frequencyValueTextBox.getText());
 						statusView.running = true;
-						statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
-					} else if ((highestValueTextBox.getText()).equals("") 
-							&& (lowestValueTextBox.getText()).equals("") 
+						statusView.statusBlinker.setForeground(Constant.COLORONBRIGHT);
+					} else if ((highestValueTextBox.getText()).equals("")
+							&& (lowestValueTextBox.getText()).equals("")
 							&& (frequencyValueTextBox.getText()).equals("")) {
-						ServerConsole.getServerConsole().display("Default Highest value , Lowest value and Frequency will "
-									+ "be used. Server is Running on Port Number 1516.");
+						ServerConsole.getServerConsole().display("Default Highest value , "
+								+ "Lowest value and Frequency will be used. Server is Running "
+								+ "on Port Number 1516.");
 						setThreadForServer(Server.createThreadForServer());
 						statusView.running = true;
-						statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+						statusView.statusBlinker.setForeground(Constant.COLORONBRIGHT);
 					} else if ((highestValueTextBox.getText()).equals("")) {
-						ServerConsole.getServerConsole().display("HighestValue is not entered. Default Value 1024 will be "
-								+ "used as highest value. Server is Running on Port Number 1516.");
+						ServerConsole.getServerConsole().display("HighestValue is not entered."
+								+ "Default Value 1024 will be used as highest value. Server is Running on"
+								+ "Port Number 1516.");
 						setThreadForServer(Server.createThreadForServer());
 						statusView.running = true;
-						statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+						statusView.statusBlinker.setForeground(Constant.COLORONBRIGHT);
 					} else if ((lowestValueTextBox.getText()).equals("")) {
-						ServerConsole.getServerConsole().display("LowestValue is not entered. Default Value 0 will be used "
-								+ "as Lowest value. Server is Running on Port Number 1516.");
+						ServerConsole.getServerConsole().display("LowestValue is not entered."
+								+ "Default Value 0 will be used as Lowest value. Server is Running on "
+								+ "Port Number 1516.");
 						setThreadForServer(Server.createThreadForServer());
 						statusView.running = true;
-						statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+						statusView.statusBlinker.setForeground(Constant.COLORONBRIGHT);
 					} else if ((frequencyValueTextBox.getText()).equals("")) {
-						ServerConsole.getServerConsole().display("Frequency is not entered. Default Value 2 will be used for"
-								+ " Frequency.Server is Running on Port Number 1516.");
+						ServerConsole.getServerConsole().display("Frequency is not entered."
+								+ "Default Value 2 will be used for Frequency.Server is Running on Port"
+								+ "Number 1516.");
 						setThreadForServer(Server.createThreadForServer());
 						statusView.running = true;
-						statusView.statusBlinker.setForeground(COLOR_ON_BRIGHT);
+						statusView.statusBlinker.setForeground(Constant.COLORONBRIGHT);
 					}
 				} else {
 					statusView.running = false;
-					statusView.statusBlinker.setForeground(COLOR_OFF);
-					ServerConsole.getServerConsole().display("Server is Stopped on Port Number 1516.");
+					statusView.statusBlinker.setForeground(Color.red);
+					ServerConsole.getServerConsole()
+							.display("Server is Stopped on Port Number 1516.");
 					serverThread = getThreadForServer();
 					serverThread.StopServer();
 				}
@@ -179,6 +177,7 @@ public class ServerUIMain {
 
 	/**
 	 * Set the server thread to the newly created thread
+	 * 
 	 * @param serverThread
 	 */
 	public void setThreadForServer(Server serverThread) {
@@ -187,6 +186,7 @@ public class ServerUIMain {
 
 	/**
 	 * Get newly created server thread
+	 * 
 	 * @return handle to the current server thread
 	 */
 	public Server getThreadForServer() {
@@ -194,6 +194,6 @@ public class ServerUIMain {
 	}
 
 	public static void main(String[] args) {
-		ServerUIMain serverInstance = new ServerUIMain();
+		new ServerUIMain();
 	}
 }

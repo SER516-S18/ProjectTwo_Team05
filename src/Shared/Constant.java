@@ -19,5 +19,7 @@ public class Constant {
 	public static final String STARTSTOPLABELNAME = "start / stop";
 	public static final Color LIGHTBLUE = new Color(173,216,230);
 	public static final Color LIGHTPINK = new Color(255,182,193);
+	public static final Color COLORONDIM = new Color(197, 224, 179);
+	public static final Color COLORONBRIGHT = new Color(168, 208, 141);
 	
 }

@@ -14,35 +14,34 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
+import Shared.Constant;
+
 /**
- * ServerStatusView class will create a circle and fill it with color to show the server
- * status
+ * ServerStatusView class will create a circle and fill it with color to show
+ * the server status
  **/
 public class ServerStatusView extends JPanel {
+	private static final long serialVersionUID = 1L;
 	public boolean running;
 	public JLabel statusBlinker;
 
-	private final Color COLOR_OFF = Color.red;
-	private final Color COLOR_ON_DIM = new Color(197, 224, 179);
-	private final Color COLOR_ON_BRIGHT = new Color(168, 208, 141);
-	
 	/**
-	 * ServerStatusView constructor method will change the status of the server
-	 * the method will add a timer so the blinker
-	 * statusblinker label will set the background color of the blinker
+	 * ServerStatusView constructor method will change the status of the server the
+	 * method will add a timer so the blinker status blinker label will set the
+	 * background color of the blinker
 	 **/
 	public ServerStatusView() {
-		running = ServerUIMain.ServerRunning;
+		running = ServerUIMain.serverRunning;
 
 		Timer timer = new Timer(1000, e2 -> {
 			if (running) {
-				if (statusBlinker.getForeground() == COLOR_ON_DIM) {
-					statusBlinker.setForeground(COLOR_ON_BRIGHT);
+				if (statusBlinker.getForeground() == Constant.COLORONDIM) {
+					statusBlinker.setForeground(Constant.COLORONBRIGHT);
 				} else {
-					statusBlinker.setForeground(COLOR_ON_DIM);
+					statusBlinker.setForeground(Constant.COLORONDIM);
 				}
 			} else {
-				statusBlinker.setForeground(COLOR_OFF);
+				statusBlinker.setForeground(Color.red);
 			}
 		});
 		timer.start();
@@ -52,12 +51,12 @@ public class ServerStatusView extends JPanel {
 		this.setBorder(new EmptyBorder(8, 8, 8, 8));
 
 		JPanel statusPanel = new JPanel(new BorderLayout());
-		statusPanel.setBackground(ServerUIMain.LIGHTPINK);
+		statusPanel.setBackground(Constant.LIGHTPINK);
 		statusPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		statusBlinker = new JLabel(Character.toString((char) 0x2022), SwingConstants.CENTER);
 		statusBlinker.setFont(new Font("Monospaced", Font.PLAIN, 500));
-		statusBlinker.setForeground(running ? COLOR_ON_BRIGHT : COLOR_OFF);
+		statusBlinker.setForeground(running ? Constant.COLORONBRIGHT : Color.red);
 		statusPanel.add(statusBlinker, BorderLayout.CENTER);
 
 		this.add(statusPanel, BorderLayout.CENTER);
