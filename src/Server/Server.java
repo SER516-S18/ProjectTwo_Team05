@@ -120,7 +120,8 @@ public class Server implements Runnable {
        	}
        	catch(Exception e) {
        		e.printStackTrace();
-			ServerConsole.getServerConsole().display("Error in starting server.");
+			ServerConsole.getServerConsole().display("Error: Unable to start server at port 1516.");
+			return;
        	}
         
         while(this.checkServerStatus()) {
@@ -155,7 +156,7 @@ public class Server implements Runnable {
                 } catch (Exception e) {
                     e.printStackTrace();
         			ServerConsole.getServerConsole().display("Error 404 :Internal Server Error.Error in fetching server status.");
-
+        			return;
                 } finally {
 
                 }
