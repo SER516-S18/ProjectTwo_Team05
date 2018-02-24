@@ -98,6 +98,7 @@ public class Server implements Runnable {
 			this.listener.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			ServerConsole.getServerConsole().display("Error in Stopping server.");
 		}
 	}
 
@@ -121,6 +122,7 @@ public class Server implements Runnable {
        	}
        	catch(Exception e) {
        		e.printStackTrace();
+			ServerConsole.getServerConsole().display("Error in starting server.");
        	}
         
         while(this.checkServerStatus()) {
@@ -155,11 +157,15 @@ public class Server implements Runnable {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+        			ServerConsole.getServerConsole().display("Error 404 :Internal Server Error.Error in fetching server status.");
+
                 } finally {
 
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+    			ServerConsole.getServerConsole().display("Error 404 :Internal Server Error.");
+
             }
         }
 	}
