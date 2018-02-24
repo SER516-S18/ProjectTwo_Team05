@@ -92,10 +92,13 @@ public class Server implements Runnable {
 	public synchronized void StopServer() {
 		this.ServerStatus = false;
 		try {
-			socket.close();
+			if (this.socket != null) {
+				this.socket.close();
+			}
 			this.listener.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			ServerConsole.getServerConsole().display("Error in Stopping server.");
 		}
 	}
 
@@ -119,6 +122,8 @@ public class Server implements Runnable {
        	}
        	catch(Exception e) {
        		e.printStackTrace();
+			ServerConsole.getServerConsole().display("Error: Unable to start server at port 1516.");
+			return;
        	}
         
         while(this.checkServerStatus()) {
@@ -138,6 +143,7 @@ public class Server implements Runnable {
                                			 Integer valuesToBeSend = lowest_value 
                                					 + randomNumber.nextInt(highest_value);
                                			 string_stream += valuesToBeSend.toString() + ",";
+                               			 System.out.println("Hello");
                                      }
    	                        		 	string_stream += "\n";
    									bufferWriter.write(string_stream);	
@@ -158,11 +164,15 @@ public class Server implements Runnable {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+        			ServerConsole.getServerConsole().display("Error 404 :Internal Server Error.Error in fetching server status.");
+        			return;
                 } finally {
 
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+    			ServerConsole.getServerConsole().display("Error 404 :Internal Server Error.");
+
             }
         }
 	}

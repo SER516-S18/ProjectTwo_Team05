@@ -92,13 +92,22 @@ public class ClientUI{
         dataPanel.setLayout(null);
 
         /* This panel is used to display exceptions/errors to the user */
-        JPanel consolePanel = new JPanel();
+    /*    JPanel consolePanel = new JPanel();
         consolePanel.setBorder(BorderFactory.createLineBorder(Color.black));
         consolePanel.setBackground(Color.lightGray);
         consolePanel.setBounds(10, 610, 760, 130);
-        f.add(consolePanel);
-        consolePanel.setLayout(null);
-        /* Channels Label */
+        f.add(consolePanel);*/
+	JTextPane consoleOutput = new JTextPane();
+		consoleOutput.setBackground(Color.LIGHT_GRAY);
+		consoleOutput.setBounds(10, 610, 760, 130);
+		consoleOutput.setBorder(BorderFactory.createLineBorder(Color.black));
+		ClientConsole clientConsole = ClientConsole.getClientConsole();
+		clientConsole.setConsolePanel(consoleOutput);
+		f.getContentPane().add(consoleOutput);
+		f.add(consoleOutput);
+		consoleOutput.setLayout(null);
+        
+		/* Channels Label */
         JLabel channels = new JLabel("<html>Channels:</html>");
         channels.setBorder(BorderFactory.createLineBorder(Color.black));
         channels.setBackground(LIGHTPINK);
@@ -210,7 +219,7 @@ public class ClientUI{
         dataPanel.add(freqTxt);
         
         dataPanel.repaint();
-        consolePanel.repaint();
+        consoleOutput.repaint();
         
         f.setVisible(true);
        

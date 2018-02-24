@@ -4,40 +4,16 @@
 
 package Server;
 
-import javax.swing.JLabel;
+import Shared.Console;
 
-/**
- * ServerConsole class is used to display the messages on the console
- **/
-public class ServerConsole {
+public class ServerConsole extends Console {
 
-	private static ServerConsole console = null;
-	JLabel consoleDisplay;
+	private static ServerConsole serverConsole = null;
 
-	/**
-	 * print method is printing the value to the console 
-	 * @param text to be print
-	 **/
-	public void print(String text) {
-		this.consoleDisplay.setText(text);
-	}
-
-	/**
-	 * ServerConsole method is creating a new instance of the class if we have not created
-	 * @return console
-	 **/
-	public static ServerConsole getConsole() {
-		if (null == console) {
-			console = new ServerConsole();
+	public static ServerConsole getServerConsole() {
+		if (serverConsole == null) {
+			serverConsole = new ServerConsole();
 		}
-		return console;
-	}
-
-	/**
-	 * setConsole method sets the newly created console to the this.consoleDisplay
-	 * @param console
-	 **/
-	public void setConsole(JLabel console) {
-		this.consoleDisplay = console;
+		return serverConsole;
 	}
 }
