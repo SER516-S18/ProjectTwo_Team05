@@ -154,7 +154,6 @@ public class ServerUI
                 {
                     statusView.running = false;
                     statusView.statusBlinker.setForeground(COLOR_OFF);
-                    //console.setConsole(consoleMessage);
                     console.setConsoleMessage("Server is Stopped on Port Number 1516.");
                     serverThread = getThreadForServer();
                     serverThread.StopServer();

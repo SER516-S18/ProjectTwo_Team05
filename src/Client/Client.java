@@ -6,6 +6,8 @@ package Client;
 import Shared.Constant;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Client {
@@ -17,7 +19,8 @@ public class Client {
     int[] stream=new int[100];
     int no_of_channels=2;
     int frequency=2;
-    int []values_received;
+    String data = "";
+    ArrayList<Integer> values_received = new ArrayList<Integer>();
 
     // declaration section:
     // clientSocket: our client socket
@@ -25,7 +28,6 @@ public class Client {
     // is: input stream
 
     Socket clientSocket = null;
-    DataOutputStream os = null;
     BufferedReader inFromServer = null;
 
 	public boolean clientStatus() {
@@ -41,21 +43,21 @@ public class Client {
 		 // Initialization section:
         // Try to open a socket on the given port
         // Try to open input and output streams
-
         try {
-        	InetAddress address = InetAddress.getByName(hostname);
+        	 	InetAddress address = InetAddress.getByName(hostname);
             clientSocket = new Socket(address, port);
-	   
-	    //receiving data from server
+    			
             InputStream is = clientSocket.getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             inFromServer = new BufferedReader(isr);
-            String data = inFromServer.readLine();
-            String[] stringArray = data.split(",");
-             values_received = new int[stringArray.length];
-            for (int i = 0; i < stringArray.length; i++) {
-               String numberAsString = stringArray[i];
-               values_received[i] = Integer.parseInt(numberAsString);
+            
+            while ((data = inFromServer.readLine()) != null) {
+                String[] stringArray = data.split(",");
+                
+                for (int i = 0; i < stringArray.length; i++) {
+                   Integer numberReceived = Integer.parseInt(stringArray[i]);
+                   values_received.add(numberReceived);
+                }
             }
 
         } catch (UnknownHostException e) {
@@ -67,23 +69,21 @@ public class Client {
 
         // If everything has been initialized then we want to write some data
         // to the socket we have opened a connection to on the given port
-
-        if (clientSocket == null || os == null || inFromServer == null) {
+        
+        if (clientSocket == null || inFromServer == null) {
             System.err.println( "Something is wrong. One variable is null." );
             return;
         }
 
 	}
 	
-	public int[] sendValuesToClientUI() {
-		return values_received;
-	}
+//	public int[] sendValuesToClientUI() {
+//		return values_received;
+//	}
 
 	public void stopClient() {
 		try {
-
             // clean up:
-            os.close(); // close the output stream
             inFromServer.close();  // close the input stream
             clientSocket.close();  // close the socket
 
