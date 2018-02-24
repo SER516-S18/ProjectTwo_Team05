@@ -63,6 +63,16 @@ public class Client implements Runnable{
                   Integer numberReceived = Integer.parseInt(stringArray[i]);
                   values_received.add(numberReceived);
                }
+	       if(stringArray.length<frequency){
+            	   int buffer_value=frequency-stringArray.length;                   
+                   for(int k=0;k<buffer_value;k++)
+			   {  
+				   values_received.add(0);                   
+			   }            	   
+               	}
+               else{
+            	   values_received.add(numberReceived);            	   
+               }
            }
        } catch (UnknownHostException e) {
            ClientConsole.getClientConsole().display("Don't know about host: " + hostname);
@@ -88,6 +98,17 @@ public class Client implements Runnable{
         }
 
     }
+    
+   /* public int[] sendValuesToClientUI() {
+		int inputValues[] = {1, 2, 3,4 , 5, 5, 6, 7,8, 9, 10};
+		return inputValues;
+	}*/
+	
+
+	public ArrayList<Integer> sendValuesToClientUI() {
+		//int inputValues[] = {1, 2, 3,4 , 5, 5, 6, 7,8, 9, 10}
+		return values_received;
+	}
 
 }
 

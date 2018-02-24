@@ -58,13 +58,16 @@ public class PlotGraph extends ApplicationFrame{
 	    {
 	    		plotValues[i] = new XYSeries( "Channel " + (i + 1)); 
 	    }
+	    System.out.println(inputValues.length);
 	    	for(i = 0; i < (inputValues.length-1); i++ )
 	    {
+	    		
 	    		int x = i%selectedValue;
 	    		plotValues[x].add(inputValues[i], inputValues[i+1]);
 	    }
 	    	for(i = 0; i < selectedValue; i++)
 	  	{
+	    		System.out.println("Inside for2");
 	    		dataset.addSeries( plotValues[i]);
 	  	}
 	    return dataset;
