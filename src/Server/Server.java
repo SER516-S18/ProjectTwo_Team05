@@ -1,7 +1,10 @@
+/**
+ * @SER516 Project2_Team05
+ */
+
 package Server;
 
 import Shared.Constant;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -11,15 +14,15 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
-/*
- * Server class first accepts number of channels and frequency from
- * the client class and then generates and sends random numbers to the
- * client class according to the number of channels and frequency passed
- * using the socket  
+
+/**
+ * Server class first accepts number of channels and frequency from the client
+ * and then generates and sends random numbers to the client class
+ * according to the number of channels and frequency passed using the socket
  */
 
-public class Server  implements Runnable{
-    private boolean ServerStatus;
+public class Server implements Runnable {
+	private boolean ServerStatus;
     private DataInputStream input_stream =null;
     private DataOutputStream outToClient=null;
     private BufferedWriter bufferWriter = null;
@@ -29,111 +32,129 @@ public class Server  implements Runnable{
     private int frequency = 2;
     private int port = Constant.PORT_NUMBER;
     private String string_stream = "";
-
     Socket socket;
 
-    @Override
-    public void run(){
-        this.StartServer();
-    }
+	/**
+	 * The constructor will set the ServerStatus to false initially
+	 **/
+	public Server() {
+		ServerStatus = true;
+	}
 
-    public void setValues(String highestValue , String lowestValue , String frequency)
-    {
-        if(highestValue!=null)
-            this.highest_value = Integer.parseInt(highestValue);
-        if(lowestValue!=null)
-            this.lowest_value = Integer.parseInt(lowestValue);
-        if(frequency!=null)
-            this.frequency = Integer.parseInt(frequency);
+	@Override
+	public void run() {
+		this.StartServer();
+	}
+	
+	/**
+	 * setValues method will get the values from the text box of highestValue, lowestValue
+	 * and frequency
+	 * @param highestValue
+	 * @param lowestValue
+	 * @param frequency
+	 **/
+	public void setValues(String highestValue, String lowestValue, String frequency) {
+		if (highestValue != null) {
+			this.highest_value = Integer.parseInt(highestValue);
+		}
+		if (lowestValue != null) {
+			this.lowest_value = Integer.parseInt(lowestValue);
+		}
+		if (frequency != null) {
+			this.frequency = Integer.parseInt(frequency);
+		}
+	}
 
-    }
-    public static Server createThreadForServer()
-    {
-        Server server = new Server();
-        new Thread(server).start();
-        return server;
-    }
+	/**
+	 * createThreadForServer create a new server instance for the thread
+	 * and start the thread with new server
+	 * return the thread
+	 * @return server
+	 **/
+	public static Server createThreadForServer() {
+		Server server = new Server();
+		new Thread(server).start();
+		return server;
+	}
 
-    private boolean checkServerStatus()
-    {
-        return this.ServerStatus;
-    }
+	/**
+	 * checkServerStatus will return the current Server Status
+	 * @return this.ServerStatus
+	 **/
+	private boolean checkServerStatus() {
+		return this.ServerStatus;
+	}
 
-    public Server()
-    {
-        ServerStatus = true;
-    }
+	/**
+	 * StopServer method will stop the server on button click and close the socket and 
+	 * listener
+	 **/
+	public synchronized void StopServer() {
+		this.ServerStatus = false;
+		try {
+			socket.close();
+			this.listener.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
-    public synchronized void StopServer(){
-        this.ServerStatus=false;
+	/**
+	 * Server starts and sends random numbers to the client
+	 */
+	public void StartServer() {
+		Random randomNumber = new Random();
         try{
-            this.listener.close();
-        }catch(IOException e)
+
+            listener = new ServerSocket(port);
+        }
+        catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.print(e.getMessage());
         }
 
-    }
-
-	/* server starts and sends random numbers to the client 
-	 * */
-    public void StartServer () { 
-    			
-    		Random randomNumber = new Random();
-            try{
-
-                listener = new ServerSocket(port);
-            }
-            catch(Exception e)
-            {
-                System.out.print(e.getMessage());
-            }
-
+        try {
+            socket = listener.accept();
+       	}
+       	catch(Exception e) {
+       		e.printStackTrace();
+       	}
+        
+        while(this.checkServerStatus()) {
             try {
-                socket = listener.accept();
-           	}
-           	catch(Exception e) {
-           		e.printStackTrace();
-           	}
-            
-            while(this.ServerStatus) {
+            		this.ServerStatus = false;
                 try {
-                   this.ServerStatus = false;
-                    try {
-                        outToClient = new DataOutputStream(socket.getOutputStream());
-                        
-                        OutputStream os = socket.getOutputStream();
-                        OutputStreamWriter osw = new OutputStreamWriter(os);
-                        bufferWriter = new BufferedWriter(osw);
-                        Thread thread = new Thread(new Runnable() {
-                            public void run() {
-                            	try {
-	                            		while(true) {
-	                            			for (int j = 0; j < frequency; j++) {
-	                               			 Integer valuesToBeSend = lowest_value + randomNumber.nextInt(highest_value);
-	                               			 string_stream += valuesToBeSend.toString() + ",";
-	                                     }
-	   	                        		 	string_stream += "\n";
-	   									bufferWriter.write(string_stream);	
-	   									bufferWriter.flush();
-	                            		}
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-                            }});
-                        thread.start();
-       
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-//                        socket.close();
-//                        listener.close();
-                    }
+                    outToClient = new DataOutputStream(socket.getOutputStream());
+                    OutputStream os = socket.getOutputStream();
+                    OutputStreamWriter osw = new OutputStreamWriter(os);
+                    bufferWriter = new BufferedWriter(osw);
+                    Thread thread = new Thread(new Runnable() {
+                        public void run() {
+                        	try {
+                            		while(true) {
+                            			for (int j = 0; j < frequency; j++) {
+                               			 Integer valuesToBeSend = lowest_value 
+                               					 + randomNumber.nextInt(highest_value);
+                               			 string_stream += valuesToBeSend.toString() + ",";
+                                     }
+   	                        		 	string_stream += "\n";
+   									bufferWriter.write(string_stream);	
+   									bufferWriter.flush();
+                            		}
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+                        }});
+                    thread.start();
+   
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    // print error message on console
+                    e.printStackTrace();
+                } finally {
+
                 }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-    }
+        }
+	}
 }
