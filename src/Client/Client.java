@@ -4,13 +4,17 @@
 package Client;
 
 import Shared.Constant;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class Client {
+public class Client implements Runnable{
 	
 	static Client ClientInstance = new Client();
 	boolean clientstatus;
@@ -30,6 +34,17 @@ public class Client {
     Socket clientSocket = null;
     BufferedReader inFromServer = null;
 
+    @Override
+    public void run(){
+        this.startClient();
+    }
+
+    public static Client createThreadForClient()
+    {
+        Client client = new Client();
+        new Thread(client).start();
+        return client;
+    }
 	public boolean clientStatus() {
 		return clientstatus;	
 	}
@@ -53,7 +68,7 @@ public class Client {
             
             while ((data = inFromServer.readLine()) != null) {
                 String[] stringArray = data.split(",");
-                
+                System.out.println(data);
                 for (int i = 0; i < stringArray.length; i++) {
                    Integer numberReceived = Integer.parseInt(stringArray[i]);
                    values_received.add(numberReceived);
@@ -82,17 +97,20 @@ public class Client {
 //		return values_received;
 //	}
 
-	public void stopClient() {
-		try {
+    public synchronized void stopClient(){
+        this.clientstatus=false;
+        try{
             // clean up:
             inFromServer.close();  // close the input stream
             clientSocket.close();  // close the socket
+            clientSocket.close();
 
-        } catch (UnknownHostException e) {
-            System.err.println("Trying to connect to unknown host: " + e);
-        } catch (IOException e) {
-            System.err.println("IOException:  " + e);
+        }catch(IOException e)
+        {
+            System.out.println(e.getMessage());
         }
-	}
+
+    }
+
 }
 

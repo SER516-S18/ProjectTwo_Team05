@@ -32,7 +32,7 @@ public class ClientUI{
     int selectedValue = 1;
     private PlotGraph chart;
     private ChartPanel chartPanel;
-
+    Client clientThread;
     Client client;
     private boolean clientRunning = false;
 
@@ -60,14 +60,15 @@ public class ClientUI{
         startStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             		clientRunning = !clientRunning;
-            		client = client.getClientInstance();
                 if(clientRunning) {
+                    setThreadForClient(Client.createThreadForClient());
                     System.out.println("Client is running..."); // print command on console
-                    client.startClient();
+                    //client.startClient();
                 }
                 else {
                     System.out.println("Client is Stopped...");  // print command on console
-                    client.stopClient();
+                    clientThread = getThreadForClient();
+                    clientThread.stopClient();
                 }
             }
         });
@@ -243,7 +244,18 @@ public class ClientUI{
         mainFrame.setVisible(true);
        
     }
-    
+
+
+    public void setThreadForClient(Client clientThread)
+    {
+        this.clientThread = clientThread;
+    }
+
+    public Client getThreadForClient()
+    {
+        return this.clientThread;
+    }
+
     public static void main(String[] args) //main
     {
         ClientUI client = new ClientUI();
