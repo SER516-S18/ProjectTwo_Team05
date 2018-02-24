@@ -1,8 +1,11 @@
+/**
+ * @SER516 Project2_Team05
+ */
+
 package Client;
 
 import Shared.Constant;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,26 +14,38 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+/**
+ * Client class receives random values from the server at its frequency
+ */
+
 public class Client implements Runnable {
 
-	static Client ClientInstance = new Client();
-	boolean clientstatus;
-	String hostname = Constant.HOST_NAME;
-	int port = Constant.PORT_NUMBER;
+	static Client clientInstance = new Client();
+	boolean clientStatus;
 	int[] stream = new int[100];
-	int no_of_channels = 2;
+	int noOfChannels = 2;
 	int frequency = 2;
 	String data = "";
 	int numberReceived;
-	ArrayList<Integer> values_received = new ArrayList<Integer>();
+	ArrayList<Integer> valuesReceived = new ArrayList<Integer>();
 
 	Socket clientSocket = null;
 	BufferedReader inFromServer = null;
 
+	/**
+	 * This method starts the client
+	 **/
 	@Override
 	public void run() {
 		this.startClient();
 	}
+
+	/**
+	 * createThreadForClient creates a new client instance for the thread and start
+	 * the thread with new client return the thread
+	 * 
+	 * @return server
+	 **/
 
 	public static Client createThreadForClient() {
 		Client client = new Client();
@@ -38,18 +53,33 @@ public class Client implements Runnable {
 		return client;
 	}
 
+	/**
+	 * clientStatus will return the current Client Status
+	 * 
+	 * @return this.ServerStatus
+	 **/
+
 	public boolean clientStatus() {
-		return clientstatus;
+		return clientStatus;
 	}
+
+	/**
+	 * getClientInstance will return the client instance
+	 * 
+	 * @return this.clientInstance
+	 **/
 
 	public static Client getClientInstance() {
-		return ClientInstance;
+		return clientInstance;
 	}
 
+	/**
+	 * Client starts and receives random values from server
+	 */
 	public void startClient() {
 		try {
-			InetAddress address = InetAddress.getByName(hostname);
-			clientSocket = new Socket(address, port);
+			InetAddress address = InetAddress.getByName(Constant.HOST_NAME);
+			clientSocket = new Socket(address, Constant.PORT_NUMBER);
 
 			InputStream is = clientSocket.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
@@ -59,29 +89,15 @@ public class Client implements Runnable {
 				String[] stringArray = data.split(",");
 				for (int i = 0; i < stringArray.length; i++) {
 					numberReceived = Integer.parseInt(stringArray[i]);
-					values_received.add(numberReceived);
+					valuesReceived.add(numberReceived);
 				}
-
-				System.out.println(values_received);
-				//Integer numberReceived = null;
-				/*for (int i = 0; i < stringArray.length; i++) {
-					numberReceived = Integer.parseInt(stringArray[i]);
-					values_received.add(numberReceived);
-				}
-				if (stringArray.length < frequency) {
-					int buffer_value = frequency - stringArray.length;
-					for (int k = 0; k < buffer_value; k++) {
-						values_received.add(0);
-					}
-				} else {
-					values_received.add(numberReceived);
-				}*/
 			}
 		} catch (UnknownHostException e) {
-			ClientConsole.getClientConsole().display("Don't know about host: " + hostname);
+			ClientConsole.getClientConsole()
+					.display("Don't know about host: " + Constant.HOST_NAME);
 		} catch (IOException e) {
 			ClientConsole.getClientConsole()
-					.display("Couldn't get I/O for the connection " + "to: " + hostname);
+					.display("Couldn't get I/O for the connection " + "to: " + Constant.HOST_NAME);
 			ClientConsole.getClientConsole().display(e.getMessage());
 		}
 
@@ -91,8 +107,13 @@ public class Client implements Runnable {
 		}
 	}
 
+	/**
+	 * stopClient method will stop the client on button click and close the socket
+	 * and listener
+	 **/
+
 	public synchronized void stopClient() {
-		this.clientstatus = false;
+		this.clientStatus = false;
 		try {
 			inFromServer.close();
 			clientSocket.close();
@@ -101,15 +122,8 @@ public class Client implements Runnable {
 		}
 	}
 
-	/*
-	 * public int[] sendValuesToClientUI() { int inputValues[] = {1, 2, 3,4 , 5, 5,
-	 * 6, 7,8, 9, 10}; return inputValues; }
-	 */
-
 	public ArrayList<Integer> sendValuesToClientUI() {
-		// int inputValues[] = {1, 2, 3,4 , 5, 5, 6, 7,8, 9, 10}
-		System.out.println("Inside Method");
-		return values_received;
+		return valuesReceived;
 	}
 
 }
