@@ -33,6 +33,10 @@ public class ClientUIMain {
 	Client clientThread;
 	Client client;
 	private boolean clientRunning = false;
+	JLabel highTxt;
+	JLabel lowTxt;
+	JLabel avgTxt;
+	int inputValues[] = {1,3,5,364,26,37,735,87,358,87};
 
 	public ClientUIMain() {
 
@@ -61,6 +65,7 @@ public class ClientUIMain {
 					ClientConsole.getClientConsole().display("Client is stopped. ");
 					clientThread = getThreadForClient();
 					clientThread.stopClient();
+					calculateStats(inputValues);
 				}
 			}
 		});
@@ -141,48 +146,51 @@ public class ClientUIMain {
 		JLabel highVal = new JLabel("<html>Highest<br>value:</html>");
 		highVal.setBorder(BorderFactory.createLineBorder(Color.black));
 		highVal.setBackground(LIGHTBLUE);
-		highVal.setBounds(560, 15, 85, 60);
+		highVal.setBounds(560,15,85,60);
 		highVal.setHorizontalAlignment(SwingConstants.CENTER);
 		highVal.setOpaque(true);
 		dataPanel.add(highVal);
 
 		/* Highest Value TextPane */
-		JTextPane highTxt = new JTextPane();
+		highTxt = new JLabel();
 		highTxt.setBorder(BorderFactory.createLineBorder(Color.black));
 		highTxt.setBackground(LIGHTPINK);
-		highTxt.setBounds(655, 15, 85, 60);
+		highTxt.setOpaque(true);
+		highTxt.setBounds(655,15,85,60);
 		dataPanel.add(highTxt);
 
 		/* Lowest Value Label */
 		JLabel lowVal = new JLabel("<html>Lowest<br>value:</html>");
 		lowVal.setBorder(BorderFactory.createLineBorder(Color.black));
 		lowVal.setBackground(LIGHTPINK);
-		lowVal.setBounds(560, 90, 85, 60);
+		lowVal.setBounds(560,90,85,60);
 		lowVal.setHorizontalAlignment(SwingConstants.CENTER);
 		lowVal.setOpaque(true);
 		dataPanel.add(lowVal);
 
 		/* Lowest Value TextPane */
-		JTextPane lowTxt = new JTextPane();
+		lowTxt = new JLabel();
 		lowTxt.setBorder(BorderFactory.createLineBorder(Color.black));
 		lowTxt.setBackground(LIGHTBLUE);
-		lowTxt.setBounds(655, 90, 85, 60);
+		lowTxt.setOpaque(true);
+		lowTxt.setBounds(655,90,85,60);
 		dataPanel.add(lowTxt);
 
 		/* Average Value Label */
 		JLabel average = new JLabel("<html>Average</html>");
 		average.setBorder(BorderFactory.createLineBorder(Color.black));
 		average.setBackground(LIGHTBLUE);
-		average.setBounds(560, 165, 85, 60);
+		average.setBounds(560,165,85,60);
 		average.setHorizontalAlignment(SwingConstants.CENTER);
 		average.setOpaque(true);
 		dataPanel.add(average);
 
 		/* Average Value TextPane */
-		JTextPane avgTxt = new JTextPane();
+		avgTxt = new JLabel();
 		avgTxt.setBorder(BorderFactory.createLineBorder(Color.black));
 		avgTxt.setBackground(LIGHTPINK);
-		avgTxt.setBounds(655, 165, 85, 60);
+		avgTxt.setOpaque(true);
+		avgTxt.setBounds(655,165,85,60);
 		dataPanel.add(avgTxt);
 
 		/* Frequency Label */
@@ -211,6 +219,39 @@ public class ClientUIMain {
 
 		f.setVisible(true);
 
+	}
+
+	public void calculateStats(int []inputValues) {
+		/* Highest Value Calculation */
+		int maxValue = -999;
+		for (int i = 1; i < inputValues.length; i++) {
+			if (inputValues[i] > maxValue) {
+				maxValue = inputValues[i];
+			}
+		}
+		/* Lowest Value Calculation */
+		int minValue = 999;
+		for (int i = 1; i < inputValues.length; i++) {
+			if (inputValues[i] < minValue) {
+				minValue = inputValues[i];
+			}
+		}
+		/* Average Value calculation */
+		int sum = 0;
+		int avgValue = 0;
+		int arraySize = inputValues.length;
+		if(arraySize != 0){
+			for (int i = 1; i < arraySize; i++) {
+				sum += i;
+			}
+			avgValue = sum/arraySize;
+		}
+		highTxt.setText(""+maxValue+"");
+		lowTxt.setText(""+minValue+"");
+		avgTxt.setText(""+avgValue+"");
+		highTxt.setHorizontalAlignment(SwingConstants.CENTER);
+		lowTxt.setHorizontalAlignment(SwingConstants.CENTER);
+		avgTxt.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	public void setThreadForClient(Client clientThread) {
