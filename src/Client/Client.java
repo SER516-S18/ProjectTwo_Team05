@@ -1,10 +1,13 @@
-/*
- * @SER516 PorjectTwo Team5
- * */
 package Client;
 
 import Shared.Constant;
+<<<<<<< HEAD
 import java.io.BufferedReader;
+=======
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+>>>>>>> e65759351d6aac70002ea8eeee9704c72db7be67
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,6 +35,7 @@ public class Client implements Runnable{
     // is: input stream
 
     Socket clientSocket = null;
+    DataOutputStream os = null;
     BufferedReader inFromServer = null;
 
     @Override
@@ -56,54 +60,49 @@ public class Client implements Runnable{
 	
 	public void startClient() {
 		 // Initialization section:
-        // Try to open a socket on the given port
-        // Try to open input and output streams
-        try {
-        	 	InetAddress address = InetAddress.getByName(hostname);
-            clientSocket = new Socket(address, port);
-    			
-            InputStream is = clientSocket.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            inFromServer = new BufferedReader(isr);
-            
-            while ((data = inFromServer.readLine()) != null) {
-                String[] stringArray = data.split(",");
-                System.out.println(data);
-                for (int i = 0; i < stringArray.length; i++) {
-                   Integer numberReceived = Integer.parseInt(stringArray[i]);
-                   values_received.add(numberReceived);
-                }
-            }
-        System.out.println(values_received);
+       // Try to open a socket on the given port
+       // Try to open input and output streams
+       try {
+       	 	InetAddress address = InetAddress.getByName(hostname);
+           clientSocket = new Socket(address, port);
+   			
+           InputStream is = clientSocket.getInputStream();
+           InputStreamReader isr = new InputStreamReader(is);
+           inFromServer = new BufferedReader(isr);
+           
+           while ((data = inFromServer.readLine()) != null) {
+               String[] stringArray = data.split(",");
+               
+               for (int i = 0; i < stringArray.length; i++) {
+                  Integer numberReceived = Integer.parseInt(stringArray[i]);
+                  values_received.add(numberReceived);
+               }
+           }
+       } catch (UnknownHostException e) {
+           System.err.println("Don't know about host: " + hostname);
+       } catch (IOException e) {
+           System.err.println("Couldn't get I/O for the connection to: " + hostname);
+           System.err.println(e.getStackTrace());
+       }
 
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + hostname);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to: " + hostname);
-            System.err.println(e.getStackTrace());
-        }
-
-        // If everything has been initialized then we want to write some data
-        // to the socket we have opened a connection to on the given port
-        
-        if (clientSocket == null || inFromServer == null) {
-            System.err.println( "Something is wrong. One variable is null." );
-            return;
-        }
+       // If everything has been initialized then we want to write some data
+       // to the socket we have opened a connection to on the given port
+       
+       if (clientSocket == null || inFromServer == null) {
+           System.err.println( "Something is wrong. One variable is null." );
+           return;
+       }
 
 	}
-	
-//	public int[] sendValuesToClientUI() {
-//		return values_received;
-//	}
 
     public synchronized void stopClient(){
         this.clientstatus=false;
         try{
             // clean up:
+            os.close(); // close the output stream
             inFromServer.close();  // close the input stream
             clientSocket.close();  // close the socket
-            clientSocket.close();
+
 
         }catch(IOException e)
         {
