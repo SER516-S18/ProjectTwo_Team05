@@ -20,9 +20,6 @@ import javax.swing.text.NumberFormatter;
 import org.jfree.chart.ChartPanel;
 
 /*
- * @author  Rachana Kashyap
- * @version 1.0
- * @since   02-18-2018
  * The class ClientUI creates a JFrame with 2 sub-panels:
  * 1. dataPanel: contains a graphPanel which plots a graph using incoming values
  * User can input number of channels and frequency of incoming data from server
@@ -42,25 +39,30 @@ public class ClientUIMain {
 	private ChartPanel chartPanel;
 	Client clientThread;
 	ArrayList<Integer> valuesReceived = new ArrayList<Integer>();
-	JFrame f;
+	JFrame mainFrame;
 	JPanel graphPanel;
 	JPanel dataPanel;
 	
 	private boolean clientRunning = false;
-	JLabel highTxt;
-	JLabel lowTxt;
-	JLabel avgTxt;
+	JLabel highestValue;
+	JLabel lowestValue;
+	JLabel averageValue;
 	int inputValues[];
 
+    /*
+     * Constructor ClientUI creates a UI for the Client using a JFrame
+     * that contains 2 JPanels. These contain a graph, highest, lowest value,
+     * average value of the data received and a console for displaying errors.
+     */
 	public ClientUIMain() {
 
-		f = new JFrame();
+		mainFrame = new JFrame();
 
-		f.setTitle("Client");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setSize(800, 800);
-		f.setVisible(true);
-		f.setLayout(null);
+		mainFrame.setTitle("Client");
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setSize(800, 800);
+		mainFrame.setVisible(true);
+		mainFrame.setLayout(null);
 
 		/* Button to start/stop receiving data from the server */
 		JButton startStop = new JButton("start / stop");
@@ -68,7 +70,10 @@ public class ClientUIMain {
 		startStop.setBounds(580, 10, 190, 30);
 		startStop.setBorder(BorderFactory.createLineBorder(Color.black));
 		startStop.addActionListener(new ActionListener() {
-
+            /*
+            * When client is stopped, use values received from server to
+            * generate graph and calculate statistics
+            * */
 			public void actionPerformed(ActionEvent e) {
 				clientRunning = !clientRunning;
 
@@ -93,14 +98,14 @@ public class ClientUIMain {
 				}
 			}
 		});
-		f.add(startStop);
+		mainFrame.add(startStop);
 
 		/* dataPanel is the main Panel with Graph plotting and statistics */
 		dataPanel = new JPanel();
 		dataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		dataPanel.setBackground(Color.lightGray);
 		dataPanel.setBounds(10, 50, 760, 550);
-		f.add(dataPanel);
+		mainFrame.add(dataPanel);
 		dataPanel.setLayout(null);
 
 		JTextPane consoleOutput = new JTextPane();
@@ -109,8 +114,8 @@ public class ClientUIMain {
 		consoleOutput.setBorder(BorderFactory.createLineBorder(Color.black));
 		ClientConsole clientConsole = ClientConsole.getClientConsole();
 		clientConsole.setConsolePanel(consoleOutput);
-		f.getContentPane().add(consoleOutput);
-		f.add(consoleOutput);
+		mainFrame.getContentPane().add(consoleOutput);
+		mainFrame.add(consoleOutput);
 		consoleOutput.setLayout(null);
 
 		/* Channels Label */
@@ -122,7 +127,7 @@ public class ClientUIMain {
         channels.setOpaque(true);
         dataPanel.add(channels);
         
-        /*Channels Dropdown and select Combobox*/
+        /*Channels Dropdown and select Combo box*/
         channelDropDown = new JComboBox<String>(valuesForDropDown);
         channelDropDown.setVisible(true);
         channelDropDown.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -139,15 +144,11 @@ public class ClientUIMain {
         
         /* sub-panel of dataPanel to display graph */
         graphPanel = new JPanel();
-        //TODO Get numbers from the client 
-        //int inputValues[] = {5, 2, 6, 3, 8, 3, 9, 1, 10, 7};
         chart = new PlotGraph("");
-	    //chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
         chart.pack( );          
-	    	chart.setVisible(false);     
-        
-     
-	graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        chart.setVisible(false);
+
+	    graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         graphPanel.setBackground(LIGHTPINK);
         graphPanel.setBounds(15,15,520,520);
         dataPanel.add(graphPanel);
@@ -155,64 +156,64 @@ public class ClientUIMain {
 
 
 		/* Highest Value Label */
-		JLabel highVal = new JLabel("<html>Highest<br>value:</html>");
-		highVal.setBorder(BorderFactory.createLineBorder(Color.black));
-		highVal.setBackground(LIGHTBLUE);
-		highVal.setBounds(560,15,85,60);
-		highVal.setHorizontalAlignment(SwingConstants.CENTER);
-		highVal.setOpaque(true);
-		dataPanel.add(highVal);
+		JLabel highValLabel = new JLabel("<html>Highest<br>value:</html>");
+		highValLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+		highValLabel.setBackground(LIGHTBLUE);
+		highValLabel.setBounds(560,15,85,60);
+		highValLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		highValLabel.setOpaque(true);
+		dataPanel.add(highValLabel);
 
-		/* Highest Value TextPane */
-		highTxt = new JLabel();
-		highTxt.setBorder(BorderFactory.createLineBorder(Color.black));
-		highTxt.setBackground(LIGHTPINK);
-		highTxt.setOpaque(true);
-		highTxt.setBounds(655,15,85,60);
-		dataPanel.add(highTxt);
+		/* Highest Value Number Label after calculation*/
+		highestValue = new JLabel();
+		highestValue.setBorder(BorderFactory.createLineBorder(Color.black));
+		highestValue.setBackground(LIGHTPINK);
+		highestValue.setOpaque(true);
+		highestValue.setBounds(655,15,85,60);
+		dataPanel.add(highestValue);
 
 		/* Lowest Value Label */
-		JLabel lowVal = new JLabel("<html>Lowest<br>value:</html>");
-		lowVal.setBorder(BorderFactory.createLineBorder(Color.black));
-		lowVal.setBackground(LIGHTPINK);
-		lowVal.setBounds(560,90,85,60);
-		lowVal.setHorizontalAlignment(SwingConstants.CENTER);
-		lowVal.setOpaque(true);
-		dataPanel.add(lowVal);
+		JLabel lowValLabel = new JLabel("<html>Lowest<br>value:</html>");
+		lowValLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+		lowValLabel.setBackground(LIGHTPINK);
+		lowValLabel.setBounds(560,90,85,60);
+		lowValLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lowValLabel.setOpaque(true);
+		dataPanel.add(lowValLabel);
 
-		/* Lowest Value TextPane */
-		lowTxt = new JLabel();
-		lowTxt.setBorder(BorderFactory.createLineBorder(Color.black));
-		lowTxt.setBackground(LIGHTBLUE);
-		lowTxt.setOpaque(true);
-		lowTxt.setBounds(655,90,85,60);
-		dataPanel.add(lowTxt);
+		/* Lowest Value Number Label after calculation*/
+		lowestValue = new JLabel();
+		lowestValue.setBorder(BorderFactory.createLineBorder(Color.black));
+		lowestValue.setBackground(LIGHTBLUE);
+		lowestValue.setOpaque(true);
+		lowestValue.setBounds(655,90,85,60);
+		dataPanel.add(lowestValue);
 
 		/* Average Value Label */
-		JLabel average = new JLabel("<html>Average</html>");
-		average.setBorder(BorderFactory.createLineBorder(Color.black));
-		average.setBackground(LIGHTBLUE);
-		average.setBounds(560,165,85,60);
-		average.setHorizontalAlignment(SwingConstants.CENTER);
-		average.setOpaque(true);
-		dataPanel.add(average);
+		JLabel avgValLabel = new JLabel("<html>Average</html>");
+		avgValLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+		avgValLabel.setBackground(LIGHTBLUE);
+		avgValLabel.setBounds(560,165,85,60);
+		avgValLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		avgValLabel.setOpaque(true);
+		dataPanel.add(avgValLabel);
 
-		/* Average Value TextPane */
-		avgTxt = new JLabel();
-		avgTxt.setBorder(BorderFactory.createLineBorder(Color.black));
-		avgTxt.setBackground(LIGHTPINK);
-		avgTxt.setOpaque(true);
-		avgTxt.setBounds(655,165,85,60);
-		dataPanel.add(avgTxt);
+		/* Average Value Number Label after calculation */
+		averageValue = new JLabel();
+		averageValue.setBorder(BorderFactory.createLineBorder(Color.black));
+		averageValue.setBackground(LIGHTPINK);
+		averageValue.setOpaque(true);
+		averageValue.setBounds(655,165,85,60);
+		dataPanel.add(averageValue);
 
 		/* Frequency Label */
-		JLabel frequency = new JLabel("<html>Frequency<br>(Hz):</html>");
-		frequency.setBorder(BorderFactory.createLineBorder(Color.black));
-		frequency.setBackground(LIGHTBLUE);
-		frequency.setBounds(560, 325, 85, 60);
-		frequency.setHorizontalAlignment(SwingConstants.CENTER);
-		frequency.setOpaque(true);
-		dataPanel.add(frequency);
+		JLabel freqLabel = new JLabel("<html>Frequency<br>(Hz):</html>");
+		freqLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+		freqLabel.setBackground(LIGHTBLUE);
+		freqLabel.setBounds(560, 325, 85, 60);
+		freqLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		freqLabel.setOpaque(true);
+		dataPanel.add(freqLabel);
 
 		/* Frequency Text Field */
 		NumberFormat longFormat = NumberFormat.getIntegerInstance();
@@ -220,22 +221,22 @@ public class ClientUIMain {
 		numberFormatter.setValueClass(Long.class);
 		numberFormatter.setAllowsInvalid(false);
 
-		JFormattedTextField freqTxt = new JFormattedTextField(numberFormatter);
-		freqTxt.setBorder(BorderFactory.createLineBorder(Color.black));
-		freqTxt.setBackground(LIGHTPINK);
-		freqTxt.setBounds(655, 325, 85, 60);
-		dataPanel.add(freqTxt);
+		JFormattedTextField frequencyValue = new JFormattedTextField(numberFormatter);
+		frequencyValue.setBorder(BorderFactory.createLineBorder(Color.black));
+		frequencyValue.setBackground(LIGHTPINK);
+		frequencyValue.setBounds(655, 325, 85, 60);
+		dataPanel.add(frequencyValue);
 
 		dataPanel.repaint();
 		consoleOutput.repaint();
 
-		f.setVisible(true);
-
+		mainFrame.setVisible(true);
 	}
-	
-	
-	public void generateGraph(int []inputValues)
-    {
+
+    /*
+     * Generate graph based on received values and number of channels
+     * */
+	public void generateGraph(int []inputValues) {
                 chart = new PlotGraph("");
                 chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
                 chart.pack( );          
@@ -244,14 +245,16 @@ public class ClientUIMain {
         	    	    graphPanel.setVisible(true);
         	    	    dataPanel.add(graphPanel);
         	    	    dataPanel.setVisible(true);
-        	    	    f.add(dataPanel);
+        	    	    mainFrame.add(dataPanel);
         	    	    dataPanel.repaint();
-        	    	    f.setVisible(true);
-        	    	    f.repaint();
+        	    	    mainFrame.setVisible(true);
+        	    	    mainFrame.repaint();
         
     }
 
-
+    /*
+    * Calculate highest, lowest and average of received values
+    * */
 	public void calculateStats(int []inputValues) {
 		/* Highest Value Calculation */
 		int maxValue = -999;
@@ -277,12 +280,12 @@ public class ClientUIMain {
 			}
 			avgValue = sum/arraySize;
 		}
-		highTxt.setText(""+maxValue+"");
-		lowTxt.setText(""+minValue+"");
-		avgTxt.setText(""+avgValue+"");
-		highTxt.setHorizontalAlignment(SwingConstants.CENTER);
-		lowTxt.setHorizontalAlignment(SwingConstants.CENTER);
-		avgTxt.setHorizontalAlignment(SwingConstants.CENTER);
+		highestValue.setText(""+maxValue+"");
+		lowestValue.setText(""+minValue+"");
+		averageValue.setText(""+avgValue+"");
+		highestValue.setHorizontalAlignment(SwingConstants.CENTER);
+		lowestValue.setHorizontalAlignment(SwingConstants.CENTER);
+		averageValue.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	public void setThreadForClient(Client clientThread) {
