@@ -124,7 +124,7 @@ public class ServerUIMain {
 							&& !(lowestValueTextBox.getText()).equals("")
 							&& !(frequencyValueTextBox.getText()).equals("")) {
 						ServerConsole.getServerConsole()
-								.display("Server" + "is Running on Port Number 1516.");
+								.display("Server is Running on Port Number 1516.");
 						setThreadForServer(Server.createThreadForServer());
 						serverThread.setValues(highestValueTextBox.getText(),
 								lowestValueTextBox.getText(), frequencyValueTextBox.getText());
