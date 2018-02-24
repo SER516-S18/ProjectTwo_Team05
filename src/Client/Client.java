@@ -101,6 +101,17 @@ public class Client implements Runnable{
         }
 
     }
+    
+   /* public int[] sendValuesToClientUI() {
+		int inputValues[] = {1, 2, 3,4 , 5, 5, 6, 7,8, 9, 10};
+		return inputValues;
+	}*/
+	
+
+	public ArrayList<Integer> sendValuesToClientUI() {
+		//int inputValues[] = {1, 2, 3,4 , 5, 5, 6, 7,8, 9, 10}
+		return values_received;
+	}
 
 }
 
