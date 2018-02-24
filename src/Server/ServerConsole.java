@@ -6,6 +6,11 @@ package Server;
 
 import Shared.Console;
 
+/**
+ * This class is used to create singleton object of server console Server
+ * console is used to display messages on the server
+ */
+
 public class ServerConsole extends Console {
 
 	private static ServerConsole serverConsole = null;
