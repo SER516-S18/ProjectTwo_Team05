@@ -109,6 +109,7 @@ public class Server implements Runnable {
             listener = new ServerSocket(port);
         }
         catch(Exception e)
+
         {
             System.out.print(e.getMessage());
         }
@@ -121,6 +122,7 @@ public class Server implements Runnable {
        	}
         
         while(this.checkServerStatus()) {
+
             try {
             		this.ServerStatus = false;
                 try {
@@ -147,6 +149,7 @@ public class Server implements Runnable {
                         }});
                     thread.start();
    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
