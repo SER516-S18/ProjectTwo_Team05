@@ -236,7 +236,6 @@ public class ClientUIMain {
 	
 	public void generateGraph(int []inputValues)
     {
-
                 chart = new PlotGraph("");
                 chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
                 chart.pack( );          
@@ -256,14 +255,14 @@ public class ClientUIMain {
 	public void calculateStats(int []inputValues) {
 		/* Highest Value Calculation */
 		int maxValue = -999;
-		for (int i = 1; i < inputValues.length; i++) {
+		for (int i = 0; i < inputValues.length; i++) {
 			if (inputValues[i] > maxValue) {
 				maxValue = inputValues[i];
 			}
 		}
 		/* Lowest Value Calculation */
 		int minValue = 999;
-		for (int i = 1; i < inputValues.length; i++) {
+		for (int i = 0; i < inputValues.length; i++) {
 			if (inputValues[i] < minValue) {
 				minValue = inputValues[i];
 			}
@@ -273,8 +272,8 @@ public class ClientUIMain {
 		int avgValue = 0;
 		int arraySize = inputValues.length;
 		if(arraySize != 0){
-			for (int i = 1; i < arraySize; i++) {
-				sum += i;
+			for (int i = 0; i < arraySize; i++) {
+				sum += inputValues[i];
 			}
 			avgValue = sum/arraySize;
 		}
