@@ -141,6 +141,12 @@ public class Server implements Runnable {
                                      }
    	                        		 	string_stream += "\n";
    									bufferWriter.write(string_stream);	
+   									try {
+										Thread.sleep(1000);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
    									bufferWriter.flush();
                             		}
 							} catch (IOException e) {
