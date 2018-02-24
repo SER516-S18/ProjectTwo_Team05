@@ -213,7 +213,7 @@ public class ClientUI{
         JLabel avgValueDisplay = new JLabel(""+avgValue+"",SwingConstants.CENTER);
         avgValueDisplay.setBorder(BorderFactory.createLineBorder(Color.black));
         avgValueDisplay.setBackground(LIGHTPINK);
-        avgLabel.setOpaque(true);
+        avgValueDisplay.setOpaque(true);
         avgValueDisplay.setBounds(655,165,85,60);
         dataPanel.add(avgValueDisplay);
 
