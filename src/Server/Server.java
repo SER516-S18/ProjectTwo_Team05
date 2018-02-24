@@ -33,8 +33,9 @@ public class Server  implements Runnable{
 
     public Server()
     {
-        ServerStatus = false;
+        ServerStatus = true;
     }
+    
     @Override
     public void run(){
         this.StartServer();
@@ -66,7 +67,6 @@ public class Server  implements Runnable{
 
     public synchronized void StopServer(){
         this.ServerStatus=false;
-        System.out.println(this.ServerStatus);
         try{
             socket.close();
             this.listener.close();
@@ -81,8 +81,8 @@ public class Server  implements Runnable{
 	 * */
     public void StartServer () { 
 
-            this.ServerStatus =true;
-    		Random randomNumber = new Random();
+            //this.ServerStatus =true;
+    			Random randomNumber = new Random();
             try{
 
                 listener = new ServerSocket(port);
@@ -99,9 +99,9 @@ public class Server  implements Runnable{
            		e.printStackTrace();
            	}
             
-            while(checkServerStatus()) {
+            while(this.ServerStatus) {
                 try {
-                  // this.ServerStatus = false;
+                		this.ServerStatus = false;
                     try {
                         outToClient = new DataOutputStream(socket.getOutputStream());
                         

@@ -59,6 +59,7 @@ public class Client {
                    values_received.add(numberReceived);
                 }
             }
+        System.out.println(values_received);
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host: " + hostname);
