@@ -17,6 +17,6 @@ public class Console {
 	 * @param inputMsg
 	 */
 	public void display(String inputMsg) {
-	        this.consolePanel.setText("Console:" + inputMsg);
-	    }
+	    this.consolePanel.setText("Console:" + inputMsg);
+	}
 }
