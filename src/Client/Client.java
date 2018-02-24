@@ -71,6 +71,16 @@ public class Client implements Runnable{
                   Integer numberReceived = Integer.parseInt(stringArray[i]);
                   values_received.add(numberReceived);
                }
+	       if(stringArray.length<frequency){
+            	   int buffer_value=frequency-stringArray.length;                   
+                   for(int k=0;k<buffer_value;k++)
+			   {  
+				   values_received.add(0);                   
+			   }            	   
+               	}
+               else{
+            	   values_received.add(numberReceived);            	   
+               }
            }
        } catch (UnknownHostException e) {
            System.err.println("Don't know about host: " + hostname);
