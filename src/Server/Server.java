@@ -143,7 +143,6 @@ public class Server implements Runnable {
                                			 Integer valuesToBeSend = lowest_value 
                                					 + randomNumber.nextInt(highest_value);
                                			 string_stream += valuesToBeSend.toString() + ",";
-                               			 System.out.println("Hello");
                                      }
    	                        		 	string_stream += "\n";
    									bufferWriter.write(string_stream);	
