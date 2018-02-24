@@ -21,6 +21,7 @@ public class Client implements Runnable {
 	int no_of_channels = 2;
 	int frequency = 2;
 	String data = "";
+	int numberReceived;
 	ArrayList<Integer> values_received = new ArrayList<Integer>();
 
 	Socket clientSocket = null;
@@ -56,8 +57,14 @@ public class Client implements Runnable {
 
 			while ((data = inFromServer.readLine()) != null) {
 				String[] stringArray = data.split(",");
-				Integer numberReceived = null;
 				for (int i = 0; i < stringArray.length; i++) {
+					numberReceived = Integer.parseInt(stringArray[i]);
+					values_received.add(numberReceived);
+				}
+
+				System.out.println(values_received);
+				//Integer numberReceived = null;
+				/*for (int i = 0; i < stringArray.length; i++) {
 					numberReceived = Integer.parseInt(stringArray[i]);
 					values_received.add(numberReceived);
 				}
@@ -68,7 +75,7 @@ public class Client implements Runnable {
 					}
 				} else {
 					values_received.add(numberReceived);
-				}
+				}*/
 			}
 		} catch (UnknownHostException e) {
 			ClientConsole.getClientConsole().display("Don't know about host: " + hostname);
@@ -101,6 +108,7 @@ public class Client implements Runnable {
 
 	public ArrayList<Integer> sendValuesToClientUI() {
 		// int inputValues[] = {1, 2, 3,4 , 5, 5, 6, 7,8, 9, 10}
+		System.out.println("Inside Method");
 		return values_received;
 	}
 

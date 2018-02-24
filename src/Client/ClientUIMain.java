@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import org.jfree.chart.ChartPanel;
@@ -31,12 +33,16 @@ public class ClientUIMain {
 	private PlotGraph chart;
 	private ChartPanel chartPanel;
 	Client clientThread;
-	Client client;
+	ArrayList<Integer> valuesReceived = new ArrayList<Integer>();
+	JFrame f;
+	JPanel graphPanel;
+	JPanel dataPanel;
+	
 	private boolean clientRunning = false;
 
 	public ClientUIMain() {
 
-		JFrame f = new JFrame();
+		f = new JFrame();
 
 		f.setTitle("Client");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,13 +67,23 @@ public class ClientUIMain {
 					ClientConsole.getClientConsole().display("Client is stopped. ");
 					clientThread = getThreadForClient();
 					clientThread.stopClient();
+					System.out.println("Before Call");
+					valuesReceived = clientThread.sendValuesToClientUI();
+					System.out.println("After call");
+    	    				int[] inputValues = new int[valuesReceived.size()];
+    	    				for (int i=0; i < inputValues.length; i++)
+    	    				{
+    	    					inputValues[i] = valuesReceived.get(i).intValue();
+    	    				}
+    	    				generateGraph(inputValues);
+
 				}
 			}
 		});
 		f.add(startStop);
 
 		/* dataPanel is the main Panel with Graph plotting and statistics */
-		JPanel dataPanel = new JPanel();
+		dataPanel = new JPanel();
 		dataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		dataPanel.setBackground(Color.lightGray);
 		dataPanel.setBounds(10, 50, 760, 550);
@@ -85,57 +101,45 @@ public class ClientUIMain {
 		consoleOutput.setLayout(null);
 
 		/* Channels Label */
-		JLabel channels = new JLabel("<html>Channels:</html>");
-		channels.setBorder(BorderFactory.createLineBorder(Color.black));
-		channels.setBackground(LIGHTPINK);
-		channels.setBounds(560, 245, 85, 60);
-		channels.setHorizontalAlignment(SwingConstants.CENTER);
-		channels.setOpaque(true);
-		dataPanel.add(channels);
+        JLabel channels = new JLabel("<html>Channels:</html>");
+        channels.setBorder(BorderFactory.createLineBorder(Color.black));
+        channels.setBackground(LIGHTPINK);
+        channels.setBounds(560,245,85,60);
+        channels.setHorizontalAlignment(SwingConstants.CENTER);
+        channels.setOpaque(true);
+        dataPanel.add(channels);
+        
+        /*Channels Dropdown and select Combobox*/
+        channelDropDown = new JComboBox<String>(valuesForDropDown);
+        channelDropDown.setVisible(true);
+        channelDropDown.setBorder(BorderFactory.createLineBorder(Color.black));
+        channelDropDown.setBackground(LIGHTBLUE);
+        channelDropDown.setBounds(655,245,85,60);
+        
+    		channelDropDown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedValue = Integer.parseInt(channelDropDown.getSelectedItem().toString());
+            }});
+        dataPanel.add(channelDropDown);
+        dataPanel.add(channelDropDown);
+        
+        /* sub-panel of dataPanel to display graph */
+        graphPanel = new JPanel();
+        //TODO Get numbers from the client 
+        //int inputValues[] = {5, 2, 6, 3, 8, 3, 9, 1, 10, 7};
+        chart = new PlotGraph("");
+	    //chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
+        chart.pack( );          
+	    	chart.setVisible(false);     
+        
+     
+	graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        graphPanel.setBackground(LIGHTPINK);
+        graphPanel.setBounds(15,15,520,520);
+        dataPanel.add(graphPanel);
+        graphPanel.setLayout(null);
 
-		/* Channels Dropdown and select Combobox */
-		channelDropDown = new JComboBox<String>(valuesForDropDown);
-		channelDropDown.setVisible(true);
-		channelDropDown.setBorder(BorderFactory.createLineBorder(Color.black));
-		channelDropDown.setBackground(LIGHTBLUE);
-		channelDropDown.setBounds(655, 245, 85, 60);
-
-		dataPanel.add(channelDropDown);
-		dataPanel.add(channelDropDown);
-
-		/* sub-panel of dataPanel to display graph */
-		JPanel graphPanel = new JPanel();
-		// TODO Get numbers from the client
-		int inputValues[] = { 5, 2, 6, 3, 8, 3, 9, 1, 10, 7 };
-		chart = new PlotGraph("");
-		chartPanel = chart.PlotGraphMethod(selectedValue, inputValues);
-		chart.pack();
-		chartPanel.setVisible(false);
-		channelDropDown.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				selectedValue = Integer.parseInt(channelDropDown.getSelectedItem().toString());
-				chart = new PlotGraph("");
-				chartPanel = chart.PlotGraphMethod(selectedValue, inputValues);
-				chart.pack();
-				chartPanel.setVisible(true);
-				graphPanel.add(chartPanel);
-				graphPanel.setVisible(true);
-				dataPanel.add(graphPanel);
-				dataPanel.setVisible(true);
-				f.add(dataPanel);
-				dataPanel.repaint();
-				f.setVisible(true);
-				f.repaint();
-			}
-		});
-
-		graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		graphPanel.setBackground(LIGHTPINK);
-		graphPanel.setBounds(15, 15, 520, 520);
-		graphPanel.add(chartPanel);
-		dataPanel.add(graphPanel);
-		graphPanel.setLayout(null);
 
 		/* Highest Value Label */
 		JLabel highVal = new JLabel("<html>Highest<br>value:</html>");
@@ -212,6 +216,26 @@ public class ClientUIMain {
 		f.setVisible(true);
 
 	}
+	
+	
+	public void generateGraph(int []inputValues)
+    {
+
+                chart = new PlotGraph("");
+                chartPanel = chart.PlotGraphMethod(selectedValue,inputValues);
+                chart.pack( );          
+        	    	    chartPanel.setVisible( true ); 
+        	    	    graphPanel.add(chartPanel);
+        	    	    graphPanel.setVisible(true);
+        	    	    dataPanel.add(graphPanel);
+        	    	    dataPanel.setVisible(true);
+        	    	    f.add(dataPanel);
+        	    	    dataPanel.repaint();
+        	    	    f.setVisible(true);
+        	    	    f.repaint();
+        
+    }
+
 
 	public void setThreadForClient(Client clientThread) {
 		this.clientThread = clientThread;
