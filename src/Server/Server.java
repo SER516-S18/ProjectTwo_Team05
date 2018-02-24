@@ -1,7 +1,6 @@
 package Server;
 
 import Shared.Constant;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -32,6 +31,10 @@ public class Server  implements Runnable{
 
     Socket socket;
 
+    public Server()
+    {
+        ServerStatus = false;
+    }
     @Override
     public void run(){
         this.StartServer();
@@ -59,14 +62,13 @@ public class Server  implements Runnable{
         return this.ServerStatus;
     }
 
-    public Server()
-    {
-        ServerStatus = true;
-    }
+
 
     public synchronized void StopServer(){
         this.ServerStatus=false;
+        System.out.println(this.ServerStatus);
         try{
+            socket.close();
             this.listener.close();
         }catch(IOException e)
         {
@@ -78,7 +80,8 @@ public class Server  implements Runnable{
 	/* server starts and sends random numbers to the client 
 	 * */
     public void StartServer () { 
-    			
+
+            this.ServerStatus =true;
     		Random randomNumber = new Random();
             try{
 
@@ -96,9 +99,9 @@ public class Server  implements Runnable{
            		e.printStackTrace();
            	}
             
-            while(this.ServerStatus) {
+            while(checkServerStatus()) {
                 try {
-                   this.ServerStatus = false;
+                  // this.ServerStatus = false;
                     try {
                         outToClient = new DataOutputStream(socket.getOutputStream());
                         
