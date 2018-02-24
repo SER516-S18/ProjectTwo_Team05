@@ -37,6 +37,10 @@ public class ClientUI{
     JPanel dataPanel;
     JPanel graphPanel;
     Client clientThread;
+    JLabel highTxt;
+    JLabel lowTxt;
+    JLabel avgTxt;
+
     //Client client;
     private boolean clientRunning = false;
     
@@ -77,6 +81,7 @@ public class ClientUI{
     	    				}   		
                     //int [] inputValues = clientThread.sendValuesToClientUI();
     	    				System.out.println("Inside stop");
+    	    				calculateStats(inputValues);
     	    				generateGraph(inputValues);
                 }
             }
@@ -160,9 +165,10 @@ public class ClientUI{
         dataPanel.add(highVal);
 
         /* Highest Value TextPane */
-        JTextPane highTxt = new JTextPane();
+        highTxt = new JLabel();
         highTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         highTxt.setBackground(LIGHTPINK);
+        highTxt.setOpaque(true);
         highTxt.setBounds(655,15,85,60);
         dataPanel.add(highTxt);
 
@@ -176,9 +182,10 @@ public class ClientUI{
         dataPanel.add(lowVal);
 
         /* Lowest Value TextPane */
-        JTextPane lowTxt = new JTextPane();
+        lowTxt = new JLabel();
         lowTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         lowTxt.setBackground(LIGHTBLUE);
+        lowTxt.setOpaque(true);
         lowTxt.setBounds(655,90,85,60);
         dataPanel.add(lowTxt);
 
@@ -192,9 +199,10 @@ public class ClientUI{
         dataPanel.add(average);
 
         /* Average Value TextPane */
-        JTextPane avgTxt = new JTextPane();
+        avgTxt = new JLabel();
         avgTxt.setBorder(BorderFactory.createLineBorder(Color.black));
         avgTxt.setBackground(LIGHTPINK);
+        avgTxt.setOpaque(true);
         avgTxt.setBounds(655,165,85,60);
         dataPanel.add(avgTxt);
 
@@ -224,7 +232,38 @@ public class ClientUI{
         f.setVisible(true);
        
     }
-    
+    public void calculateStats(int []inputValues) {
+        /* Highest Value Calculation */
+        int maxValue = -999;
+        for (int i = 1; i < inputValues.length; i++) {
+            if (inputValues[i] > maxValue) {
+                maxValue = inputValues[i];
+            }
+        }
+        /* Lowest Value Calculation */
+        int minValue = 999;
+        for (int i = 1; i < inputValues.length; i++) {
+            if (inputValues[i] < minValue) {
+                minValue = inputValues[i];
+            }
+        }
+        /* Average Value calculation */
+        int sum = 0;
+        int avgValue = 0;
+        int arraySize = inputValues.length;
+        if(arraySize != 0){
+            for (int i = 1; i < arraySize; i++) {
+                sum += i;
+            }
+            avgValue = sum/arraySize;
+        }
+        highTxt.setText(""+maxValue+"");
+        lowTxt.setText(""+minValue+"");
+        avgTxt.setText(""+avgValue+"");
+        highTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        lowTxt.setHorizontalAlignment(SwingConstants.CENTER);
+        avgTxt.setHorizontalAlignment(SwingConstants.CENTER);
+    }
     
     public void generateGraph(int []inputValues)
     {
