@@ -27,7 +27,6 @@ public class PlotGraph extends ApplicationFrame {
 	Color colorlist[] = new Color[] { Color.RED, Color.GREEN, Color.YELLOW, 
 			Color.BLACK, Color.PINK };
 	
-
 	public PlotGraph(String title) {
 		super(title);
 	}
@@ -42,6 +41,7 @@ public class PlotGraph extends ApplicationFrame {
 		JFreeChart xyLineChart = ChartFactory.createXYLineChart("", "", "",
 				createDataset(numberOfChannels, inputValues),
 		PlotOrientation.VERTICAL, true, false, false);
+		xyLineChart.removeLegend();
 		ChartPanel chartPanel = new ChartPanel(xyLineChart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(520, 520));
 		final XYPlot plot = xyLineChart.getXYPlot();
@@ -69,7 +69,6 @@ public class PlotGraph extends ApplicationFrame {
 		for (int i = 0; i < numberOfChannels; i++) {
 			plotValues[i] = new XYSeries("Channel " + (i + 1));
 		}
-		System.out.println(inputValues.length);
 		for (int i = 0; i < (inputValues.length - 1); i++) {
 
 			int x = i % numberOfChannels;

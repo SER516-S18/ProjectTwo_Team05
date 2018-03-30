@@ -20,8 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.text.NumberFormatter;
 import org.jfree.chart.ChartPanel;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
 
 /*
  * The class ClientUI creates a JFrame with 2 sub-panels:
@@ -32,7 +35,7 @@ import org.jfree.chart.ChartPanel;
  * ClientUI also has a Start/Stop button to control the receiving of data from the server
  */
 
-public class ClientUIMain {
+public class ClientUIMain{
 
 	private String[] valuesForDropDown = new String[] { "1", "2", "3", "4", "5" };
 	private JComboBox<String> channelDropDown;
@@ -80,9 +83,7 @@ public class ClientUIMain {
 					ClientConsole.getClientConsole().display("Client is stopped. ");
 					clientThread = getThreadForClient();
 					clientThread.stopClient();
-					System.out.println("Before Call");
 					valuesReceived = clientThread.sendValuesToClientUI();
-					System.out.println("After call");
 					inputValues = new int[valuesReceived.size()];
 					for (int i = 0; i < inputValues.length; i++) {
 						inputValues[i] = valuesReceived.get(i).intValue();
@@ -135,10 +136,6 @@ public class ClientUIMain {
 		dataPanel.add(channelDropDown);
 
 		graphPanel = new JPanel();
-		chart = new PlotGraph("");
-		chart.pack();
-		chart.setVisible(false);
-
 		graphPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		graphPanel.setBackground(Constant.LIGHTPINK);
 		graphPanel.setBounds(15, 15, 520, 520);
@@ -219,6 +216,8 @@ public class ClientUIMain {
 	 * Generate graph based on received values and number of channels
 	 */
 	public void generateGraph(int[] inputValues) {
+		graphPanel.removeAll();
+		graphPanel.revalidate();
 		chart = new PlotGraph("");
 		chartPanel = chart.PlotGraphMethod(selectedValue, inputValues);
 		chart.pack();
@@ -278,4 +277,5 @@ public class ClientUIMain {
 	public static void main(String[] args) {
 		new ClientUIMain();
 	}
+
 }
